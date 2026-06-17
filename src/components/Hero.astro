@@ -48,11 +48,6 @@
           <span class="stat-num grad-text">100%</span>
           <span class="stat-lbl">Citado y verificado</span>
         </div>
-        <div class="stat-div"></div>
-        <div class="stat">
-          <span class="stat-num grad-text mono" style="font-size:1.1rem;">MVP 24h</span>
-          <span class="stat-lbl">Python · LangGraph</span>
-        </div>
       </div>
 
     </div>
@@ -62,11 +57,9 @@
 <style>
   .hero-section {
     position: relative;
-    height: 100vh;
-    min-height: 620px;
+    min-height: 100vh;
     display: flex;
     align-items: center;
-    overflow: hidden;
   }
 
   .hero-bg {
@@ -136,12 +129,19 @@
     border-radius: 999px;
   }
 
-  /* Headline — tighter so it never wraps to 5 lines */
+  /* Headline — ensure grad-text is never clipped */
   .display {
     font-size: clamp(2.1rem, 4.2vw, 3.8rem);
     line-height: 1.08;
     letter-spacing: -0.02em;
     margin: 0;
+    padding-bottom: 0.08em; /* prevent descender/gradient clip */
+  }
+
+  /* Ensure all grad-text has room to render */
+  .grad-text {
+    display: inline-block;
+    padding-bottom: 0.05em;
   }
 
   .lede {

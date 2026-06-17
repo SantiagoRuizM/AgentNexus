@@ -115,6 +115,8 @@ code, pre, .mono {
   background-clip: text;
   color: transparent;
   font-style: italic;
+  display: inline-block;
+  padding-bottom: 0.05em;
 }
 
 /* Animations */
