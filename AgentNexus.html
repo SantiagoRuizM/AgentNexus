@@ -1,0 +1,2444 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AgentNexus — La norma se vuelve conversación. Facultad de Ingeniería · UdeA.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,300;8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  /* Brand fonts — Azurio (titles), Replica (body) */
+  @font-face {
+    font-family: "Azurio";
+    src: url("assets/fonts/Azurio-Light.otf") format("opentype");
+    font-weight: 300; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "Azurio";
+    src: url("assets/fonts/Azurio-Regular.woff") format("woff"),
+         url("assets/fonts/Azurio-Regular.otf")  format("opentype");
+    font-weight: 400; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "Azurio";
+    src: url("assets/fonts/Azurio-Medium.otf") format("opentype");
+    font-weight: 500; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "Azurio";
+    src: url("assets/fonts/Azurio-Semibold.otf") format("opentype");
+    font-weight: 600; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "Azurio";
+    src: url("assets/fonts/Azurio-Bold.otf") format("opentype");
+    font-weight: 700; font-style: normal; font-display: swap;
+  }
+  @font-face {
+    font-family: "Replica";
+    src: url("assets/fonts/Replica-Regular.ttf") format("truetype");
+    font-weight: 300 600; font-style: normal; font-display: swap;
+  }
+  :root {
+    --coral-100: #FFEFE6;
+    --coral-200: #FFDFCC;
+    --coral-300: #FFC2A3;
+    --coral-400: #FF9E78;
+    --coral-500: #FF7A52;
+    --coral-600: #E55C32;
+    --coral-700: #C24823;
+
+    /* gradient stops for orange — never use solid orange on divs */
+    --grad-orange: linear-gradient(135deg, var(--coral-400) 0%, var(--coral-600) 100%);
+    --grad-orange-soft: linear-gradient(135deg, var(--coral-300) 0%, var(--coral-500) 100%);
+    --grad-warm-bg:
+      radial-gradient(140% 90% at 80% 5%, rgba(255,130,80,0.65), transparent 55%),
+      radial-gradient(80% 60% at 5% 10%, rgba(255,180,140,0.5), transparent 65%),
+      linear-gradient(180deg, #FFC9A8 0%, var(--coral-100) 40%, #FFF6EE 72%, #FFFCFA 90%, #FFFFFF 100%);
+
+    --cream:     #FBF6F1;
+    --cream-02:  #F4ECE3;
+    --paper:     #FFFFFF;
+
+    --ink:       #0D0D0D;
+    --ink-soft:  #1A1A1A;
+    --body:      #2E2A26;
+    --muted:     #6B655E;
+    --line:      #E6DED4;
+    --line-strong: #C9BFB3;
+
+    --verified:  #0F6E56;
+    --verified-50:#E1F5EE;
+    --signal:    #1A7CC2;
+    --signal-50: #E6F1FA;
+
+    /* brand: Azurio for titles, Replica Light for body. Falls back to Source Serif / Inter if font files are missing. */
+    --serif: "Azurio", "Source Serif 4", "Iowan Old Style", "Georgia", serif;
+    --sans:  "Replica", "Inter", "Helvetica Neue", Arial, sans-serif;
+    --mono:  "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+    --max: 1240px;
+    --gutter: 2rem;
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    font-weight: 300;
+    background: var(--paper);
+    color: var(--body);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  img, svg { display: block; max-width: 100%; }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: pointer; border: 0; background: none; }
+
+  ::selection { background: var(--coral-500); color: #fff; }
+
+  /* ---------- type ---------- */
+  .display {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(3.4rem, 8.4vw, 7.5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0;
+  }
+  /* italic letters overflow their box on the right — give grad-text room */
+  .display em.grad-text {
+    display: inline-block;
+    padding: 0 0.08em 0 0.02em;
+    margin-right: -0.04em;
+    overflow: visible;
+  }
+  .h1 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(2.3rem, 5vw, 4.25rem);
+    line-height: 0.98;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(1.65rem, 3vw, 2.5rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    margin: 0;
+  }
+  .lede {
+    font-size: clamp(1.05rem, 1.25vw, 1.25rem);
+    line-height: 1.55;
+    color: var(--body);
+    font-weight: 400;
+  }
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  /* gradient orange used in TEXT (display headlines) — never on solid bgs */
+  .grad-text {
+    background: var(--grad-orange);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-style: italic;
+    font-weight: 400;
+    /* italic descenders + box-decoration-break safety so the last glyph never clips */
+    display: inline-block;
+    padding-right: 0.18em;
+    margin-right: -0.08em;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  /* ---------- layout ---------- */
+  .wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gutter); }
+  section { position: relative; }
+
+  /* ---------- LOGO ---------- */
+  .logo-img { width: 26px; height: 26px; object-fit: contain; }
+  .logo-img.sm { width: 18px; height: 18px; }
+  .logo-img.md { width: 36px; height: 36px; }
+  .logo-img.lg { width: 56px; height: 56px; }
+  .wordmark {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.3rem;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+    display: inline-flex; align-items: center; gap: 0.55rem;
+  }
+  .wordmark .dot {
+    background: var(--grad-orange);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* ---------- NAV (transparent over hero) ---------- */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 80;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: background .3s ease, border-color .3s ease, backdrop-filter .3s ease;
+  }
+  .nav.scrolled {
+    background: rgba(255,255,255,0.75);
+    border-bottom: 1px solid var(--line);
+    backdrop-filter: saturate(160%) blur(16px);
+    -webkit-backdrop-filter: saturate(160%) blur(16px);
+  }
+  .nav-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 1.05rem var(--gutter);
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 2rem;
+  }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-links > a.ghost-link {
+    font-size: 0.92rem;
+    font-weight: 500;
+    color: var(--ink);
+    transition: color .15s;
+  }
+  .nav-links > a.ghost-link:hover { color: var(--coral-600); }
+  .nav-pill {
+    display: inline-flex; align-items: center; gap: 0.35rem;
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 8px;
+  }
+  .nav-pill .gpdot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--grad-orange);
+  }
+  @media (max-width: 880px) {
+    .nav-links .ghost-link, .nav-pill { display: none; }
+  }
+
+  /* ---------- PRIMARY CTA — black pill, gradient-coral arrow & dot ---------- */
+  .cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.72rem 0.72rem 0.72rem 1.15rem;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 10px;
+    font-family: var(--sans);
+    font-size: 0.95rem;
+    font-weight: 500;
+    letter-spacing: -0.005em;
+    transition: background .2s, transform .2s, box-shadow .2s;
+    box-shadow: 0 6px 18px -8px rgba(0,0,0,0.4);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .cta:hover {
+    background: #000;
+    transform: translateY(-1px);
+    box-shadow: 0 14px 30px -10px rgba(0,0,0,0.5);
+  }
+  .cta .pdot {
+    display: inline-block;
+    width: 9px; height: 9px;
+    border-radius: 50%;
+    background: var(--grad-orange);
+    box-shadow: 0 0 0 0 rgba(255,122,82,0.55);
+    animation: pdot 2s ease-in-out infinite;
+  }
+  @keyframes pdot {
+    0%   { box-shadow: 0 0 0 0 rgba(255,122,82,0.55); }
+    70%  { box-shadow: 0 0 0 8px rgba(255,122,82,0); }
+    100% { box-shadow: 0 0 0 0 rgba(255,122,82,0); }
+  }
+  .cta .arrow-pill {
+    display: inline-grid; place-items: center;
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    background: var(--grad-orange);
+    color: var(--ink);
+    transition: transform .2s, filter .2s;
+  }
+  .cta:hover .arrow-pill { filter: brightness(1.05); transform: translateX(3px); }
+  .cta .arrow-pill svg { width: 14px; height: 14px; }
+
+  .btn-ghost {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    padding: 0.85rem 1.3rem;
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--ink);
+    border-radius: 10px;
+    font-size: 0.93rem; font-weight: 500;
+    transition: background .15s, color .15s;
+    cursor: pointer;
+  }
+  .btn-ghost:hover { background: var(--ink); color: #fff; }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    padding: 9.5rem 0 8rem;
+    background: var(--grad-warm-bg);
+    overflow: hidden;
+    border-bottom: 0;
+  }
+  /* video as part of the hero — sits behind everything, tinted by warm overlay */
+  .hero-bg-video {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .hero-bg-video video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    display: block;
+    opacity: 0.55;
+    mix-blend-mode: multiply;
+  }
+  /* warm coral wash on top of the video so the hero keeps its brand color */
+  .hero-bg-video::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(120% 80% at 78% 8%, rgba(255,130,80,0.55), transparent 60%),
+      radial-gradient(80% 60% at 5% 10%, rgba(255,180,140,0.45), transparent 65%),
+      linear-gradient(180deg, rgba(255,201,168,0.55) 0%, rgba(255,239,230,0.65) 45%, rgba(255,252,250,0.85) 85%, #FFFFFF 100%);
+  }
+  /* seamless fade from hero into manifesto — sits BEHIND content */
+  .hero::after {
+    content: "";
+    position: absolute;
+    left: 0; right: 0; bottom: -1px;
+    height: 320px;
+    background: linear-gradient(180deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.5) 40%, #FFFFFF 100%);
+    pointer-events: none;
+    z-index: 1;
+  }
+  .hero .wrap.hero-grid { position: relative; z-index: 3; }
+  .hero-lines { z-index: 2; position: relative; }
+  .hero-lines {
+    position: absolute; inset: 0;
+    pointer-events: none;
+  }
+  .hero-lines svg { width: 100%; height: 100%; }
+  .hero-lines line { stroke: rgba(255,255,255,0.7); stroke-width: 1; }
+  .hero-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
+    gap: 3.5rem;
+    align-items: center;
+  }
+  @media (max-width: 980px) { .hero-grid { grid-template-columns: 1fr; gap: 3rem; } }
+
+  .hero .eyebrow { margin-bottom: 1.5rem; color: var(--ink); }
+  .hero .display {
+    font-size: clamp(2.4rem, 5.4vw, 4.6rem);
+    line-height: 1.02;
+    margin-bottom: 1.75rem;
+  }
+  .hero .display em.grad-text { color: transparent; }
+  .hero .lede { max-width: 32rem; margin: 0 0 2.25rem; color: var(--ink-soft); }
+  .hero-cta { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 2.5rem; align-items: center; }
+  .hero-meta {
+    display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem;
+    font-family: var(--mono); font-size: 0.75rem; color: var(--muted);
+    align-items: center;
+  }
+  .hero-meta .live-dot {
+    display: inline-block; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--verified); margin-right: 0.4rem; vertical-align: middle;
+    animation: blink 1.6s infinite;
+  }
+
+  /* hero right — live preview */
+  .preview {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px -20px rgba(60,30,15,0.22);
+  }
+  .preview-head {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.65rem 0.9rem;
+    background: var(--cream-02);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+  }
+  .preview-dots { display: flex; gap: 5px; }
+  .preview-dots span { width: 9px; height: 9px; border-radius: 50%; background: var(--line-strong); }
+  .preview-dots span:nth-child(2) { background: var(--coral-300); }
+  .preview-dots span:nth-child(3) { background: var(--coral-500); }
+  .preview-tabs { display: flex; gap: 0.9rem; }
+  .preview-tabs span.active { color: var(--ink); }
+
+  .preview-body { padding: 1.25rem; display: block; }
+
+  .preview-chat { display: none; }
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.85rem;
+    display: flex; flex-direction: column; gap: 0.6rem;
+    min-height: 280px;
+    background: var(--cream);
+  }
+  .msg-DEAD-DO-NOT-USE { display: none; }
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    padding: 0.55rem 0.7rem;
+    border-radius: 4px;
+    max-width: 90%;
+  }
+  .msg.ai { background: var(--paper); border: 1px solid var(--line); color: var(--ink); }
+  .msg.me { background: var(--ink); color: var(--coral-100); align-self: flex-end; }
+  .msg .who { font-family: var(--mono); font-size: 0.6rem; color: var(--muted); letter-spacing: 0.1em; display: block; margin-bottom: 3px; text-transform: uppercase; }
+  .msg.me .who { color: var(--coral-300); }
+  .msg.typing { display: inline-flex; gap: 4px; align-items: center; padding: 0.7rem; }
+  .msg.typing i { width: 5px; height: 5px; background: var(--muted); border-radius: 50%; animation: typing 1.2s infinite; }
+  .msg.typing i:nth-child(2) { animation-delay: 0.15s; }
+  .msg.typing i:nth-child(3) { animation-delay: 0.3s; }
+  @keyframes typing { 0%,80%,100%{opacity:0.2;transform:translateY(0)} 40%{opacity:1;transform:translateY(-3px)} }
+
+  .preview-graph {
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    background: var(--paper);
+    padding: 0.85rem 0.85rem 0.65rem;
+    position: relative;
+    min-height: 460px;
+    display: flex; flex-direction: column;
+  }
+  .preview-graph .label {
+    font-family: var(--mono); font-size: 0.62rem; color: var(--muted); letter-spacing: 0.14em;
+    display: flex; justify-content: space-between;
+    margin-bottom: 0.65rem;
+    text-transform: uppercase;
+  }
+  .preview-graph .label .ax { color: var(--verified); }
+  .preview-graph svg { flex: 1; width: 100%; height: auto; }
+  .gnode circle { transform-origin: center; transform-box: fill-box; animation: pulse 3.8s ease-in-out infinite; }
+  .gnode.center circle { fill: url(#centerGrad); }
+  .gnode.center .ctext { font-family: var(--serif); font-weight: 600; font-size: 9px; fill: #fff; letter-spacing: 0.04em; }
+  .gnode.center .sub { font-family: var(--mono); font-size: 7px; fill: var(--muted); letter-spacing: 0.12em; text-transform: uppercase; }
+  .gnode.mod circle { fill: url(#nodeGrad); }
+  .gnode.mod.m-kme circle { fill: var(--verified); }
+  .gnode.mod.m-axi circle { fill: var(--ink); }
+  .gnode.mod.m-dis circle { fill: var(--signal); }
+  .gnode.mod text { font-family: var(--mono); font-weight: 600; font-size: 7.5px; fill: var(--ink); letter-spacing: 0.08em; }
+  .gnode.leaf circle { fill: var(--line-strong); }
+  .gedge { stroke: var(--line-strong); stroke-width: 1; }
+  .gedge.faint { stroke: var(--line); stroke-width: 0.7; }
+  .gedge.flow { stroke: var(--coral-500); stroke-width: 1.1; stroke-dasharray: 3 3; animation: flow 6s linear infinite; opacity: 0.7; }
+
+  @keyframes pulse { 0%,100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.25); opacity: 0.85; } }
+  @keyframes flow  { to { stroke-dashoffset: -120; } }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+  @media (prefers-reduced-motion: reduce) {
+    .gnode circle, .gedge.flow, .msg.typing i, .hero-meta .live-dot, .cta .pdot { animation: none; }
+  }
+
+  .preview-foot {
+    padding: 0.6rem 1rem;
+    border-top: 1px solid var(--line);
+    background: var(--cream);
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .preview-foot .v { color: var(--verified); }
+
+  /* ---------- ORCHESTRATION DIAGRAM ---------- */
+  .orch {
+    position: relative;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 1.4rem 1.25rem 0.95rem;
+    box-shadow: 0 30px 80px -20px rgba(60,30,15,0.22);
+  }
+  .orch-head {
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.85rem;
+  }
+  .orch-head .live {
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    color: var(--verified);
+  }
+  .orch-head .live .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--verified);
+    animation: blink 1.6s infinite;
+  }
+  /* ---------- CONSTELLATION (Variant A) · free-floating graph ---------- */
+  .constellation {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1.05;
+    max-height: 560px;
+    margin: 0 auto;
+  }
+  .constellation svg { width: 100%; height: 100%; overflow: visible; }
+
+  .const-edge {
+    stroke: rgba(13,13,13,0.32);
+    stroke-width: 1;
+    fill: none;
+  }
+  .const-edge.dim { stroke: rgba(13,13,13,0.14); }
+  .const-edge.flow {
+    stroke: var(--coral-600);
+    stroke-width: 1.4;
+    stroke-dasharray: 4 5;
+    animation: flow 7s linear infinite;
+    opacity: 0.85;
+  }
+
+  .const-node circle {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: pulse 4s ease-in-out infinite;
+  }
+  .const-node.small circle { fill: rgba(13,13,13,0.85); }
+  .const-node.med   circle { fill: var(--ink); }
+  .const-node.lg    circle { fill: url(#cnodeGrad); filter: url(#cglow); }
+  .const-node.alt   circle { fill: var(--verified); }
+  .const-node.alt2  circle { fill: var(--signal); }
+
+  /* ---- ROLES + AGENTS (row-of-roles graph) ---- */
+  .const-lane { stroke: rgba(13,13,13,0.18); stroke-width: 1; stroke-dasharray: 2 4; }
+  .const-tick {
+    font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.22em;
+    text-transform: uppercase; fill: rgba(13,13,13,0.55);
+  }
+  .const-tick.end { text-anchor: end; }
+
+  .role-pill {
+    fill: rgba(255,255,255,0.7);
+    stroke: var(--ink);
+    stroke-width: 1;
+  }
+  .role-pill.r1 { fill: rgba(255,158,120,0.32); stroke: var(--coral-600); }
+  .role-pill.r2 { fill: rgba(15,110,86,0.16);   stroke: var(--verified); }
+  .role-pill.r3 { fill: rgba(26,124,194,0.16);  stroke: var(--signal); }
+  .role-pill.r4 { fill: rgba(255,255,255,0.85); stroke: var(--ink); }
+  .role-name {
+    font-family: var(--serif); font-weight: 500;
+    font-size: 11.5px; letter-spacing: 0.02em;
+    fill: var(--ink);
+  }
+  .role-meta {
+    font-family: var(--mono); font-size: 7.5px;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    fill: rgba(13,13,13,0.55);
+  }
+
+  .const-agent circle {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: pulse 3.6s ease-in-out infinite;
+    fill: var(--coral-500);
+    stroke: rgba(13,13,13,0.25);
+    stroke-width: 1;
+  }
+  .const-agent.alt  circle { fill: var(--verified); }
+  .const-agent.alt2 circle { fill: var(--signal); }
+  .const-agent.ink  circle { fill: var(--ink); stroke: rgba(13,13,13,0.35); }
+  .const-agent-lbl {
+    font-family: var(--mono); font-size: 7.5px;
+    letter-spacing: 0.06em;
+    fill: rgba(13,13,13,0.7);
+    text-transform: lowercase;
+  }
+
+  .const-edge.conv {
+    stroke: var(--coral-500); stroke-width: 1; opacity: 0.55;
+    stroke-dasharray: 3 4;
+    animation: flow 6s linear infinite;
+    fill: none;
+  }
+
+  .output-pill {
+    fill: rgba(255,255,255,0.9);
+    stroke: var(--coral-600);
+    stroke-width: 1;
+  }
+  .output-title {
+    font-family: var(--serif); font-weight: 500;
+    font-size: 13px; letter-spacing: 0.02em;
+    fill: var(--ink);
+  }
+
+  .const-label {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    letter-spacing: 0.18em;
+    fill: var(--ink);
+    text-transform: uppercase;
+    opacity: 0.7;
+  }
+  .const-label.bright {
+    fill: var(--ink);
+    font-weight: 700;
+    opacity: 1;
+  }
+  .const-name {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 18px;
+    fill: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .const-name.italic { font-style: italic; }
+
+  /* legend below the graph */
+  .const-legend {
+    margin-top: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .const-legend .item { display: inline-flex; align-items: center; gap: 0.5rem; }
+  .const-legend .swatch {
+    width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+  }
+  .const-legend .swatch.s1 { background: var(--grad-orange); }
+  .const-legend .swatch.s2 { background: var(--verified); }
+  .const-legend .swatch.s3 { background: var(--signal); }
+
+  /* ---------- TRAJECTORY (Variant B) · single path drawing ---------- */
+  .trajectory {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1 / 1.05;
+    max-height: 560px;
+    margin: 0 auto;
+    display: none;
+  }
+  body[data-graph="trajectory"] .constellation { display: none; }
+  body[data-graph="trajectory"] .trajectory   { display: block; }
+
+  .trajectory svg { width: 100%; height: 100%; overflow: visible; }
+  .traj-path {
+    fill: none;
+    stroke: var(--ink);
+    stroke-width: 1.4;
+    stroke-linejoin: round;
+    stroke-linecap: round;
+    stroke-dasharray: 2400;
+    stroke-dashoffset: 2400;
+    animation: trajDraw 12s linear infinite;
+  }
+  .traj-path.coral {
+    stroke: var(--coral-500);
+    stroke-width: 1.8;
+    opacity: 0.85;
+    animation-delay: 0.5s;
+  }
+  @keyframes trajDraw {
+    0%   { stroke-dashoffset: 2400; }
+    40%  { stroke-dashoffset: 0; }
+    60%  { stroke-dashoffset: 0; }
+    100% { stroke-dashoffset: -2400; }
+  }
+  .traj-node {
+    fill: var(--ink);
+    opacity: 0;
+    animation: trajNode 12s linear infinite;
+  }
+  .traj-node.coral { fill: var(--coral-500); }
+  @keyframes trajNode {
+    0%, 10%   { opacity: 0; transform: scale(0.6); }
+    20%, 70%  { opacity: 1; transform: scale(1); }
+    90%, 100% { opacity: 0; }
+  }
+
+  /* hide old orch styles via display:none safety */
+  .orch, .orch-head, .orch-foot { display: none !important; }
+
+  /* ---------- TWEAKS TOGGLE PANEL ---------- */
+  .tweaks-btn {
+    position: fixed; bottom: 1.5rem; right: 1.5rem;
+    z-index: 200;
+    width: 44px; height: 44px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    display: grid; place-items: center;
+    box-shadow: 0 12px 28px -10px rgba(0,0,0,0.4);
+    cursor: pointer;
+    transition: transform .2s, background .2s;
+  }
+  .tweaks-btn:hover { transform: scale(1.06); }
+  .tweaks-btn svg { width: 18px; height: 18px; }
+  .tweaks-panel {
+    position: fixed; bottom: 5rem; right: 1.5rem;
+    z-index: 199;
+    width: 280px;
+    background: var(--paper);
+    border: 1px solid var(--line-strong);
+    border-radius: 14px;
+    box-shadow: 0 30px 80px -20px rgba(60,30,15,0.4);
+    padding: 1.1rem 1.1rem 1.25rem;
+    transform-origin: bottom right;
+    transform: scale(0.92) translateY(8px);
+    opacity: 0; pointer-events: none;
+    transition: transform .25s ease, opacity .25s ease;
+  }
+  .tweaks-panel.open { transform: none; opacity: 1; pointer-events: auto; }
+  .tweaks-panel h4 {
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted); margin: 0 0 0.6rem;
+    font-weight: 600;
+  }
+  .tweak-group { display: flex; gap: 0.4rem; margin-bottom: 1rem; }
+  .tweak-opt {
+    flex: 1;
+    padding: 0.55rem 0.6rem;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--paper);
+    font-family: var(--sans); font-size: 0.78rem; font-weight: 500;
+    color: var(--ink);
+    cursor: pointer;
+    text-align: center;
+    transition: background .15s, border-color .15s, color .15s;
+  }
+  .tweak-opt:hover { border-color: var(--line-strong); }
+  .tweak-opt.active {
+    background: var(--ink); color: #fff; border-color: var(--ink);
+  }
+
+  .orch-foot {
+    margin-top: 0.85rem;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 0.4rem;
+  }
+  .orch-foot .sep { color: var(--line-strong); }
+
+  /* role pills */
+  .role-pill rect {
+    fill: var(--cream-02);
+    stroke: var(--line-strong);
+    stroke-width: 1;
+    transition: fill .35s ease, stroke .35s ease;
+  }
+  .role-pill text {
+    font-family: var(--mono);
+    font-size: 8.5px;
+    font-weight: 600;
+    fill: var(--muted);
+    letter-spacing: 0.12em;
+    text-anchor: middle;
+    transition: fill .35s ease;
+  }
+  .role-pill.active rect {
+    fill: var(--ink);
+    stroke: var(--ink);
+  }
+  .role-pill.active text { fill: #fff; }
+
+  /* lane labels */
+  .orch-svg .lane {
+    font-family: var(--mono);
+    font-size: 7.5px;
+    letter-spacing: 0.18em;
+    fill: var(--muted);
+    text-transform: uppercase;
+  }
+
+  /* edges */
+  .orch-svg .edge { stroke: var(--line-strong); stroke-width: 1; fill: none; }
+  .orch-svg .edge.dim { stroke: var(--line); stroke-width: 0.7; }
+  .orch-svg .edge.flow {
+    stroke: url(#agentGrad);
+    stroke-width: 1.4;
+    stroke-dasharray: 4 4;
+    animation: flow 5s linear infinite;
+  }
+  .orch-svg .edge.active-in {
+    stroke: url(#agentGrad);
+    stroke-width: 1.6;
+    stroke-dasharray: 4 4;
+    animation: flow 3.5s linear infinite;
+  }
+
+  /* orchestrator text */
+  .orch-svg .o-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 16px;
+    fill: var(--ink);
+    text-anchor: middle;
+    letter-spacing: -0.01em;
+  }
+  .orch-svg .o-sub {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    fill: var(--muted);
+    text-anchor: middle;
+    text-transform: uppercase;
+  }
+  .orch-svg .o-meta {
+    font-family: var(--mono);
+    font-size: 8px;
+    letter-spacing: 0.1em;
+    fill: var(--muted);
+    text-anchor: middle;
+  }
+  .orch-svg .o-status {
+    fill: var(--verified);
+    animation: blink 1.6s infinite;
+  }
+  .orch-svg .o-status-text {
+    font-family: var(--mono);
+    font-size: 7.5px;
+    letter-spacing: 0.08em;
+    fill: var(--verified);
+  }
+
+  /* agent circles + labels */
+  .orch-svg .agent circle {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: pulse 3.8s ease-in-out infinite;
+  }
+  .orch-svg .agent.a-kme circle { animation-delay: 0.4s; }
+  .orch-svg .agent.a-dsc circle { animation-delay: 0.8s; }
+  .orch-svg .a-label {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 10px;
+    fill: #fff;
+    text-anchor: middle;
+    letter-spacing: 0.1em;
+  }
+  .orch-svg .a-name {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 13px;
+    fill: var(--ink);
+    text-anchor: middle;
+    letter-spacing: -0.005em;
+  }
+  .orch-svg .a-fw {
+    font-family: var(--mono);
+    font-size: 7.5px;
+    fill: var(--muted);
+    text-anchor: middle;
+    letter-spacing: 0.1em;
+  }
+
+  /* crew pill */
+  .orch-svg .crew-text {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    fill: var(--ink);
+    text-anchor: middle;
+    text-transform: uppercase;
+  }
+
+  /* axiom */
+  .orch-svg .ax-title {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 10.5px;
+    fill: #fff;
+    text-anchor: middle;
+    letter-spacing: 0.14em;
+  }
+  .orch-svg .ax-hash {
+    font-family: var(--mono);
+    font-size: 9px;
+    fill: rgba(255,255,255,0.55);
+    text-anchor: middle;
+    letter-spacing: 0.04em;
+  }
+  .orch-svg .ax-dot {
+    fill: var(--coral-400);
+    animation: blink 1.4s infinite;
+  }
+
+  /* output */
+  .orch-svg .out-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 12px;
+    fill: var(--ink);
+    text-anchor: middle;
+    letter-spacing: 0.04em;
+  }
+  .orch-svg .out-sub {
+    font-family: var(--mono);
+    font-size: 8px;
+    fill: var(--muted);
+    text-anchor: middle;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orch-svg .agent circle,
+    .orch-svg .edge.flow,
+    .orch-svg .edge.active-in,
+    .orch-svg .o-status,
+    .orch-svg .ax-dot { animation: none; }
+  }
+
+  /* ---------- HERO VIDEO BAND (under the landing) ---------- */
+  .hero-video {
+    position: relative;
+    width: 100%;
+    background: var(--paper);
+    overflow: hidden;
+    padding: 0;
+  }
+  .hero-video .wrap {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+  .hero-video__frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 21 / 9;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #000;
+    box-shadow: 0 30px 80px -28px rgba(60,30,15,0.22);
+  }
+  .hero-video__frame video {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .hero-video__overlay {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,0.35) 100%),
+      linear-gradient(90deg, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0) 50%);
+    pointer-events: none;
+  }
+  .hero-video__cap {
+    position: absolute; left: 1.5rem; bottom: 1.2rem;
+    color: rgba(255,255,255,0.9);
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 0.6rem;
+  }
+  .hero-video__cap .pulse {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--coral-400);
+    box-shadow: 0 0 0 0 rgba(255,158,120,0.6);
+    animation: blink 1.6s infinite;
+  }
+  .hero-video__wrap {
+    padding: 2rem var(--gutter) 5rem;
+    max-width: var(--max);
+    margin: 0 auto;
+  }
+  @media (max-width: 720px) {
+    .hero-video__frame { aspect-ratio: 16 / 10; border-radius: 10px; }
+    .hero-video__wrap { padding: 1rem var(--gutter) 4rem; }
+  }
+
+  /* ---------- MANIFESTO ---------- */
+  .manifesto {
+    padding: 6rem 0 8rem;
+    background: var(--paper);
+    border-bottom: 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .manifesto::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(40% 30% at 95% 18%, rgba(255,158,120,0.10), transparent 60%),
+      radial-gradient(40% 30% at 5% 90%, rgba(255,158,120,0.08), transparent 60%);
+    pointer-events: none;
+  }
+  .manifesto-inner {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .manifesto .eyebrow { margin-bottom: 1.5rem; color: var(--coral-600); }
+  .manifesto h2 {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: clamp(2.4rem, 5.5vw, 5rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    color: var(--ink);
+    margin: 0 0 2rem;
+  }
+  .manifesto h2 em {
+    font-style: italic;
+    font-weight: 400;
+    background: var(--grad-orange);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .manifesto p.kicker {
+    font-family: var(--serif);
+    font-weight: 400;
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.45;
+    color: var(--body);
+    max-width: 44rem;
+    margin: 0 0 2.5rem;
+  }
+  .manifesto .strikes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    margin-top: 3.5rem;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 880px) { .manifesto .strikes { grid-template-columns: 1fr; } }
+  .strike {
+    padding: 2rem 1.75rem;
+    border-right: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 0.7rem;
+  }
+  .strike:last-child { border-right: 0; }
+  @media (max-width: 880px) {
+    .strike { border-right: 0; border-bottom: 1px solid var(--line); }
+    .strike:last-child { border-bottom: 0; }
+  }
+  .strike .from {
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.1em;
+    color: var(--muted); text-decoration: line-through; text-decoration-color: var(--coral-500);
+  }
+  .strike .to {
+    font-family: var(--serif); font-weight: 500;
+    font-size: 1.4rem; color: var(--ink); letter-spacing: -0.01em;
+    line-height: 1.1;
+  }
+  .strike .desc { font-size: 0.875rem; color: var(--muted); }
+
+  /* ---------- MODULES (two groups) ---------- */
+  .modules {
+    padding: 7rem 0 7rem;
+    background: linear-gradient(180deg, var(--paper) 0%, var(--cream) 100%);
+    position: relative;
+    overflow: hidden;
+  }
+  .group {
+    margin-bottom: 5rem;
+  }
+  .group:last-child { margin-bottom: 0; }
+  .group-head {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 2.5rem;
+    align-items: end;
+    margin-bottom: 2.5rem;
+  }
+  @media (max-width: 880px) {
+    .group-head { grid-template-columns: 1fr; gap: 1rem; }
+  }
+  .group-head .num {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.16em;
+    color: var(--coral-600);
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+  }
+  .group-head .num span {
+    color: var(--muted);
+  }
+  .group-head h3 {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(1.75rem, 3vw, 2.6rem);
+    line-height: 1; letter-spacing: -0.015em;
+    color: var(--ink); margin: 0;
+  }
+  .group-head .h-desc {
+    color: var(--muted);
+    max-width: 30rem;
+    margin: 0;
+    padding-bottom: 0.5rem;
+  }
+
+  .module-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+  @media (max-width: 980px) { .module-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .module-grid { grid-template-columns: 1fr; } }
+
+  .module {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex; flex-direction: column;
+    transition: transform .25s, box-shadow .25s, border-color .25s;
+    min-height: 380px;
+    position: relative;
+  }
+  .module:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 24px 50px -20px rgba(60,30,15,0.18);
+    border-color: var(--line-strong);
+  }
+
+  .module-vis {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+    background: var(--cream-02);
+    border-bottom: 1px solid var(--line);
+  }
+  .module-vis.synaptrac {
+    background:
+      radial-gradient(60% 70% at 30% 30%, rgba(255,158,120,0.7), transparent 60%),
+      linear-gradient(135deg, var(--coral-300), var(--coral-100));
+  }
+  .module-vis.kmerge { background: linear-gradient(135deg, #0F2A24, #1B4239); }
+  .module-vis.discursus {
+    background:
+      radial-gradient(50% 60% at 70% 50%, rgba(60,140,200,0.45), transparent 60%),
+      linear-gradient(135deg, #DCEAF4, #B8D2E5);
+  }
+  .module-vis.axiom { background: linear-gradient(135deg, #0D0D0D, #2A2A2A); }
+  .module-vis.revisor { background: linear-gradient(135deg, var(--cream), var(--cream-02)); }
+  .module-vis.professor {
+    background:
+      radial-gradient(50% 60% at 30% 70%, rgba(255,200,170,0.6), transparent 60%),
+      linear-gradient(135deg, var(--coral-100), #FFEBDE);
+  }
+  .module-vis .corner-spark {
+    position: absolute; right: 1rem; top: 1rem;
+  }
+  .module-vis .lab {
+    position: absolute; left: 1rem; bottom: 0.9rem;
+    font-family: var(--mono); font-size: 0.65rem; letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.7);
+  }
+  .module-vis.kmerge .lab, .module-vis.axiom .lab { color: rgba(255,255,255,0.65); }
+
+  .vis-chips {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    flex-wrap: wrap; gap: 0.4rem;
+    padding: 2.5rem 1.25rem 2.2rem;
+  }
+  .vis-chip {
+    padding: 0.22rem 0.5rem;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(0,0,0,0.06);
+    font-family: var(--mono); font-size: 0.65rem; color: var(--ink);
+  }
+
+  .vis-commits {
+    position: absolute; inset: 1.5rem 1.1rem 1.5rem 1.1rem;
+    display: flex; flex-direction: column; gap: 0.4rem;
+    font-family: var(--mono); font-size: 0.65rem;
+    color: rgba(255,255,255,0.85);
+  }
+  .vis-commits .row {
+    display: grid; grid-template-columns: 14px 50px 1fr auto; gap: 0.5rem; align-items: center;
+  }
+  .vis-commits .row::before {
+    content: ""; width: 7px; height: 7px; border-radius: 50%;
+    background: var(--coral-500); margin-left: 3px;
+  }
+  .vis-commits .row.add::before { background: #4DECAA; }
+  .vis-commits .row.del::before { background: #FF5C5C; }
+  .vis-commits .row .h { color: var(--coral-300); }
+  .vis-commits .row .msg { color: rgba(255,255,255,0.7); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .vis-blocks {
+    position: absolute; inset: 1.5rem 1.1rem;
+    display: flex; flex-direction: column; gap: 0.45rem;
+    justify-content: center;
+  }
+  .vis-blocks .blk {
+    border: 1px solid rgba(255,255,255,0.12);
+    background: rgba(255,255,255,0.03);
+    padding: 0.45rem 0.6rem;
+    border-radius: 4px;
+    font-family: var(--mono); font-size: 0.65rem;
+    color: rgba(255,255,255,0.8);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .vis-blocks .blk .num { color: var(--coral-400); }
+  .vis-blocks .blk .age { color: rgba(255,255,255,0.45); font-size: 0.6rem; }
+  .vis-blocks .blk:nth-child(1) { border-color: rgba(255,180,140,0.4); background: rgba(255,180,140,0.06); }
+
+  .vis-receipt {
+    position: absolute; inset: 1.2rem;
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-family: var(--mono); font-size: 0.62rem; color: var(--ink);
+    display: flex; flex-direction: column; gap: 0.3rem;
+  }
+  .vis-receipt .row { display: flex; justify-content: space-between; }
+  .vis-receipt .row .k { color: var(--muted); }
+  .vis-receipt .row.tot { border-top: 1px dashed var(--line); padding-top: 0.35rem; margin-top: 0.2rem; }
+  .vis-receipt .badge {
+    display: inline-flex; align-items: center; gap: 0.3rem;
+    background: var(--verified-50); color: var(--verified);
+    padding: 0.12rem 0.4rem; border-radius: 3px;
+    font-size: 0.55rem; letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  .vis-waveform {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    gap: 3px;
+    padding: 2.5rem 1.2rem;
+  }
+  .vis-waveform i {
+    width: 3px;
+    background: var(--signal);
+    border-radius: 1px;
+    animation: wave 1.2s ease-in-out infinite;
+  }
+  @keyframes wave { 0%,100% { height: 8px; } 50% { height: 36px; } }
+
+  .vis-prof {
+    position: absolute; inset: 1.2rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem;
+  }
+  .vis-prof .tile {
+    background: rgba(255,255,255,0.9);
+    border: 1px solid rgba(0,0,0,0.06);
+    border-radius: 4px;
+    padding: 0.45rem 0.55rem;
+    display: flex; flex-direction: column; gap: 0.15rem;
+  }
+  .vis-prof .tile .k { font-family: var(--mono); font-size: 0.52rem; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+  .vis-prof .tile .v { font-family: var(--serif); font-size: 1rem; color: var(--ink); font-weight: 500; line-height: 1.1; }
+  .vis-prof .tile .delta { font-family: var(--mono); font-size: 0.55rem; color: var(--verified); }
+  .vis-prof .tile.bar { grid-column: span 2; }
+  .vis-prof .tile.bar .track {
+    height: 4px; background: var(--line); border-radius: 2px;
+    overflow: hidden; margin-top: 0.3rem; position: relative;
+  }
+  .vis-prof .tile.bar .fill { height: 100%; background: var(--grad-orange); width: 72%; }
+
+  .module-body {
+    padding: 1.4rem 1.5rem 1.5rem;
+    display: flex; flex-direction: column; gap: 0.8rem;
+    flex: 1;
+  }
+  .module-name-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .module-name {
+    font-family: var(--serif); font-weight: 500;
+    font-size: 1.5rem; letter-spacing: -0.015em; color: var(--ink);
+    line-height: 1;
+  }
+  .module-num { font-family: var(--mono); font-size: 0.65rem; color: var(--muted); letter-spacing: 0.12em; }
+  .module-role { color: var(--coral-600); font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; }
+  .module-desc { color: var(--body); font-size: 0.875rem; margin: 0; line-height: 1.55; }
+  .module-foot {
+    margin-top: auto;
+    padding-top: 0.85rem;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .module-foot .stack {
+    font-family: var(--mono); font-size: 0.68rem; color: var(--muted);
+  }
+  .module-foot .link {
+    color: var(--ink); font-weight: 500; font-size: 0.78rem;
+    display: inline-flex; align-items: center; gap: 0.35rem;
+  }
+  .module-foot .link:hover { color: var(--coral-600); }
+
+  /* ---------- ARCHITECTURE ---------- */
+  .architecture {
+    padding: 7rem 0 7rem;
+    background: var(--cream);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .arch-head { max-width: 760px; margin: 0 auto 3.5rem; text-align: center; }
+  .arch-head .eyebrow { color: var(--coral-600); margin-bottom: 1rem; }
+  .arch-head h2 { margin-bottom: 1.25rem; }
+  .arch-head p { color: var(--muted); margin: 0; }
+
+  .arch-wrap {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    gap: 3.5rem;
+    align-items: center;
+  }
+  @media (max-width: 980px) { .arch-wrap { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+  .arch-list { list-style: none; padding: 0; margin: 0; }
+  .arch-list li {
+    padding: 1.1rem 0 1.1rem 1.5rem;
+    border-top: 1px solid var(--line);
+    position: relative;
+    font-size: 0.95rem;
+    color: var(--body);
+  }
+  .arch-list li:last-child { border-bottom: 1px solid var(--line); }
+  .arch-list li::before {
+    content: ""; position: absolute; left: 0; top: 1.55rem;
+    width: 14px; height: 1px; background: var(--grad-orange);
+  }
+  .arch-list li strong { color: var(--ink); font-weight: 600; font-family: var(--mono); font-size: 0.8rem; letter-spacing: 0.04em; }
+
+  .arch-diagram {
+    background: var(--paper);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 2rem;
+    position: relative;
+    box-shadow: 0 20px 60px -25px rgba(60,30,15,0.16);
+  }
+  .arch-diagram .head {
+    font-family: var(--mono); font-size: 0.7rem; color: var(--muted);
+    display: flex; justify-content: space-between;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 1.5rem;
+  }
+  .arch-diagram .head .live { color: var(--verified); }
+  .arch-stage svg { width: 100%; height: auto; display: block; }
+
+  /* ---------- FUENTES ---------- */
+  .fuentes {
+    padding: 6.5rem 0 7rem;
+    background: var(--paper);
+    border-top: 1px solid var(--line);
+    position: relative;
+    overflow: hidden;
+  }
+  .fuentes::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(40% 30% at 95% 8%, rgba(255,158,120,0.08), transparent 60%),
+      radial-gradient(40% 30% at 5% 95%, rgba(255,158,120,0.06), transparent 60%);
+    pointer-events: none;
+  }
+  .fuentes-wrap { position: relative; }
+  .fuentes-head {
+    max-width: 760px;
+    margin: 0 auto 3rem;
+    text-align: center;
+  }
+  .fuentes-head .eyebrow { color: var(--coral-600); margin-bottom: 1rem; }
+  .fuentes-head h2 { margin-bottom: 1.25rem; }
+  .fuentes-head p {
+    color: var(--muted);
+    margin: 0 auto 1.5rem;
+    max-width: 36rem;
+  }
+  .fuentes-link {
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    padding: 0.55rem 0.95rem;
+    background: var(--ink);
+    color: #fff;
+    border-radius: 999px;
+    font-family: var(--mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.02em;
+    transition: transform .2s, background .2s;
+  }
+  .fuentes-link:hover { transform: translateY(-1px); }
+  .fuentes-link .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--grad-orange);
+    animation: blink 1.6s infinite;
+  }
+  .fuentes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+  }
+  @media (max-width: 980px) { .fuentes-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .fuentes-grid { grid-template-columns: 1fr; } }
+  .src {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 1.1rem 1.15rem 1rem;
+    display: flex; flex-direction: column;
+    gap: 0.5rem;
+    transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .src:hover {
+    transform: translateY(-2px);
+    border-color: var(--line-strong);
+    box-shadow: 0 16px 36px -18px rgba(60,30,15,0.18);
+  }
+  .src-head {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .src-tag {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.16em;
+    color: var(--coral-700);
+    background: var(--coral-100);
+    padding: 0.18rem 0.5rem;
+    border-radius: 4px;
+    text-transform: uppercase;
+  }
+  .src-tag.tag-2 { color: var(--verified); background: var(--verified-50); }
+  .src-tag.tag-3 { color: var(--signal); background: var(--signal-50); }
+  .src-tag.tag-4 { color: var(--ink); background: var(--cream-02); border: 1px solid var(--line); }
+  .src-tag.tag-5 { color: var(--coral-700); background: var(--coral-200); }
+  .src-tag.tag-6 { color: var(--muted); background: var(--paper); border: 1px solid var(--line-strong); }
+  .src-id {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+  .src-title {
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.1rem;
+    line-height: 1.15;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    margin: 0.15rem 0 0.1rem;
+  }
+  .src-meta {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.02em;
+  }
+  .src-bar {
+    margin-top: 0.4rem;
+    height: 3px;
+    background: var(--line);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .src-fill {
+    height: 100%;
+    background: var(--grad-orange);
+    border-radius: 2px;
+  }
+  .src-foot {
+    display: flex; justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-top: 0.1rem;
+  }
+  .src-foot span:last-child { color: var(--verified); text-transform: uppercase; letter-spacing: 0.14em; }
+
+  /* ---------- OPEN SOURCE ---------- */
+  .opensrc {
+    padding: 6.5rem 0 7rem;
+    background: var(--ink);
+    color: #fff;
+    position: relative;
+    overflow: hidden;
+  }
+  .opensrc::before {
+    content: ""; position: absolute; inset: 0;
+    background:
+      radial-gradient(50% 60% at 90% 100%, rgba(255,122,82,0.25), transparent 60%),
+      radial-gradient(60% 50% at 0% 0%, rgba(255,122,82,0.16), transparent 60%);
+    pointer-events: none;
+  }
+  .os-grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+  @media (max-width: 980px) { .os-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+  .os-copy .eyebrow {
+    background: var(--grad-orange);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 1.5rem;
+  }
+  .os-copy h2 {
+    color: #fff; max-width: 28rem; margin: 0 0 1.5rem;
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    line-height: 1; letter-spacing: -0.02em;
+  }
+  .os-copy h2 em {
+    font-style: italic; font-weight: 400;
+    background: var(--grad-orange);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .os-copy p { color: rgba(255,255,255,0.7); max-width: 32rem; margin: 0 0 1.75rem; font-size: 1.05rem; line-height: 1.6; }
+  .os-claims { list-style: none; padding: 0; margin: 1.5rem 0 2rem; display: grid; gap: 0.55rem; }
+  .os-claims li {
+    font-family: var(--mono); font-size: 0.8rem; color: rgba(255,255,255,0.8);
+    padding-left: 1.6rem;
+    position: relative;
+  }
+  .os-claims li::before {
+    content: ""; position: absolute; left: 0; top: 0.4rem;
+    width: 16px; height: 2px;
+    background: var(--grad-orange);
+  }
+
+  .os-terminal {
+    background: #07070A;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    font-family: var(--mono);
+    box-shadow: 0 30px 80px -20px rgba(0,0,0,0.6);
+  }
+  .os-terminal .ttop {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0.55rem 0.85rem;
+    background: #111114;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    font-size: 0.7rem; color: rgba(255,255,255,0.45);
+  }
+  .os-terminal .ttop .dots { display: flex; gap: 5px; }
+  .os-terminal .ttop .dots span { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.15); }
+  .os-terminal .ttop .dots span:nth-child(2) { background: var(--coral-300); }
+  .os-terminal .ttop .dots span:nth-child(3) { background: var(--coral-500); }
+  .os-terminal .tbody {
+    padding: 1.1rem 1.25rem 1.35rem;
+    font-size: 0.82rem;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.85);
+  }
+  .os-terminal .tline { display: block; }
+  .os-terminal .prompt { color: var(--coral-400); margin-right: 0.5rem; }
+  .os-terminal .cmd { color: #fff; }
+  .os-terminal .ok { color: #6FE3A8; }
+  .os-terminal .mute { color: rgba(255,255,255,0.45); }
+  .os-terminal .star { color: var(--coral-500); }
+  .os-terminal .cursor::after {
+    content: "▌"; color: var(--coral-400);
+    animation: blink 1s steps(1) infinite;
+    margin-left: 2px;
+  }
+
+  /* ---------- MINI FOOTER ---------- */
+  .mini-foot {
+    background: var(--ink);
+    color: rgba(255,255,255,0.6);
+    padding: 1.6rem 0;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .mini-foot-inner {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    display: flex; justify-content: space-between; align-items: center; gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .mini-foot .wordmark { color: #fff; font-size: 1.05rem; }
+  .mini-foot .wordmark .dot { color: var(--coral-400); -webkit-background-clip: initial; background-clip: initial; background: none; }
+  .mini-foot .right { display: flex; gap: 1.25rem; }
+
+  /* scroll-reveal */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- TRANSITION OVERLAY ---------- */
+  .nav-overlay {
+    position: fixed; inset: 0;
+    z-index: 999;
+    background: var(--ink);
+    transform: translateY(100%);
+    pointer-events: none;
+    transition: transform .55s cubic-bezier(0.86, 0, 0.07, 1);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .nav-overlay.active { transform: translateY(0); pointer-events: auto; }
+  .nav-overlay .core {
+    display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+    opacity: 0; transform: scale(0.92);
+    transition: opacity .35s ease .2s, transform .35s ease .2s;
+  }
+  .nav-overlay.active .core { opacity: 1; transform: scale(1); }
+  .nav-overlay .core img { filter: invert(1); }
+  .nav-overlay .core .label {
+    font-family: var(--mono); font-size: 0.75rem; letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.55); text-transform: uppercase;
+  }
+  .nav-overlay .core .spin {
+    width: 32px; height: 32px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-top-color: var(--coral-500);
+    border-radius: 50%;
+    animation: spin 0.85s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+
+<!-- ============== NAV ============== -->
+<nav class="nav" role="navigation" aria-label="Principal" id="nav">
+  <div class="nav-inner">
+    <a href="#top" class="wordmark" aria-label="AgentNexus inicio">
+      <img src="assets/isologo.png" alt="" class="logo-img" />
+      <span>AgentNexus<span class="dot">.</span></span>
+    </a>
+    <div class="nav-links">
+      <a href="#reto" class="ghost-link">El reto</a>
+      <a href="#agentes" class="ghost-link">Agentes</a>
+      <a href="#arquitectura" class="ghost-link">Arquitectura</a>
+      <a href="#fuentes" class="ghost-link">Fuentes</a>
+      <a href="#rubrica" class="ghost-link">Rúbrica</a>
+      <span class="nav-pill"><span class="gpdot"></span>MVP · 24h</span>
+      <a href="AgentNexus Roles.html" class="cta cta-enter" aria-label="Probar el copiloto">
+        <span class="pdot" aria-hidden="true"></span>
+        <span>Probar el copiloto</span>
+        <span class="arrow-pill" aria-hidden="true">
+          <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+        </span>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+<!-- ============== HERO ============== -->
+<section class="hero">
+  <div class="hero-bg-video" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="metadata">
+      <source src="https://assets.softserveinc.com/download/assets/hero-home-video.mp4" type="video/mp4" />
+    </video>
+  </div>
+  <div class="hero-lines" aria-hidden="true">
+    <svg viewBox="0 0 1440 760" preserveAspectRatio="none">
+      <line x1="-100" y1="120" x2="1540" y2="280" />
+      <line x1="-100" y1="640" x2="1540" y2="380" />
+      <line x1="780" y1="-50" x2="980" y2="820" />
+      <line x1="1100" y1="-50" x2="1340" y2="820" />
+    </svg>
+  </div>
+
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Copiloto administrativo agéntico · Facultad de Ingeniería · UdeA</div>
+      <h1 class="display">La norma deja de ser un PDF.<br/>Empieza a ser una <em class="grad-text">conversación</em>.</h1>
+      <p class="lede">AgentNexus orquesta una red de agentes especializados sobre el portal normativo oficial de la UdeA. Estudiantes y personal de la Facultad consultan reglamento, matrículas y trámites en lenguaje natural — con citas exactas al artículo, parágrafo y numeral.</p>
+      <div class="hero-cta">
+        <a href="AgentNexus Roles.html" class="cta cta-enter" aria-label="Probar el copiloto">
+          <span class="pdot" aria-hidden="true"></span>
+          <span>Probar el copiloto</span>
+          <span class="arrow-pill" aria-hidden="true">
+            <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+          </span>
+        </a>
+        <a href="#agentes" class="btn-ghost">Ver los agentes</a>
+      </div>
+      <div class="hero-meta">
+        <span><span class="live-dot"></span>RAG indexado · 1,284 artículos</span>
+        <span>·</span>
+        <span>MVP 24h</span>
+        <span>·</span>
+        <span>Python · Gradio</span>
+        <span>·</span>
+        <span>normativa.udea.edu.co</span>
+      </div>
+    </div>
+
+    <!-- ============== GRAPH (Variant A: Roles · Agents · default) ============== -->
+    <div class="constellation" data-variant="A">
+      <svg viewBox="0 0 460 520" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <linearGradient id="cnodeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#FFB48A"/>
+            <stop offset="100%" stop-color="#E55C32"/>
+          </linearGradient>
+          <filter id="cglow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="5" result="glow"/>
+            <feMerge><feMergeNode in="glow"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+
+        <!-- backbone lane through roles -->
+        <line class="const-lane" x1="30" y1="260" x2="430" y2="260"/>
+        <text class="const-tick" x="30"  y="248">orquestador</text>
+        <text class="const-tick end" x="430" y="248">evidencia</text>
+
+        <!-- ============ AGENTE 1  REGLAMENTA ============ -->
+        <g class="role-col" data-role="reglamenta">
+          <line class="const-edge flow" x1="70" y1="260" x2="38"  y2="110"/>
+          <line class="const-edge flow" x1="70" y1="260" x2="70"  y2="78" style="animation-delay:.4s"/>
+          <line class="const-edge flow" x1="70" y1="260" x2="102" y2="110" style="animation-delay:.8s"/>
+          <g class="const-agent"><circle cx="38"  cy="110" r="6"/></g>
+          <g class="const-agent" style="animation-delay:.4s"><circle cx="70"  cy="78"  r="6"/></g>
+          <g class="const-agent" style="animation-delay:.8s"><circle cx="102" cy="110" r="6"/></g>
+          <text class="const-agent-lbl" x="38"  y="95"  text-anchor="middle">intent</text>
+          <text class="const-agent-lbl" x="70"  y="63"  text-anchor="middle">retriever</text>
+          <text class="const-agent-lbl" x="102" y="95"  text-anchor="middle">citador</text>
+          <rect class="role-pill r1" x="30"  y="246" width="80" height="28" rx="4"/>
+          <text class="role-name"  x="70"  y="264" text-anchor="middle">Reglamenta</text>
+          <text class="role-meta"  x="70"  y="292" text-anchor="middle">agent.01</text>
+        </g>
+
+        <!-- ============ AGENTE 2  MATRÍCULA ============ -->
+        <g class="role-col" data-role="matricula">
+          <line class="const-edge flow" x1="180" y1="260" x2="148" y2="110" style="animation-delay:.2s"/>
+          <line class="const-edge flow" x1="180" y1="260" x2="180" y2="78"  style="animation-delay:.6s"/>
+          <line class="const-edge flow" x1="180" y1="260" x2="212" y2="110" style="animation-delay:1s"/>
+          <g class="const-agent alt" style="animation-delay:.2s"><circle cx="148" cy="110" r="6"/></g>
+          <g class="const-agent alt" style="animation-delay:.6s"><circle cx="180" cy="78"  r="6"/></g>
+          <g class="const-agent alt" style="animation-delay:1s"><circle cx="212" cy="110" r="6"/></g>
+          <text class="const-agent-lbl" x="148" y="95"  text-anchor="middle">prerreq</text>
+          <text class="const-agent-lbl" x="180" y="63"  text-anchor="middle">riesgo</text>
+          <text class="const-agent-lbl" x="212" y="95"  text-anchor="middle">plan</text>
+          <rect class="role-pill r2" x="140" y="246" width="80" height="28" rx="4"/>
+          <text class="role-name"  x="180" y="264" text-anchor="middle">Matrícula</text>
+          <text class="role-meta"  x="180" y="292" text-anchor="middle">agent.02</text>
+        </g>
+
+        <!-- ============ AGENTE 3  TRÁMITE ============ -->
+        <g class="role-col" data-role="tramite">
+          <line class="const-edge flow" x1="290" y1="260" x2="258" y2="110" style="animation-delay:.3s"/>
+          <line class="const-edge flow" x1="290" y1="260" x2="290" y2="78"  style="animation-delay:.7s"/>
+          <line class="const-edge flow" x1="290" y1="260" x2="322" y2="110" style="animation-delay:1.1s"/>
+          <g class="const-agent alt2" style="animation-delay:.3s"><circle cx="258" cy="110" r="6"/></g>
+          <g class="const-agent alt2" style="animation-delay:.7s"><circle cx="290" cy="78"  r="6"/></g>
+          <g class="const-agent alt2" style="animation-delay:1.1s"><circle cx="322" cy="110" r="6"/></g>
+          <text class="const-agent-lbl" x="258" y="95"  text-anchor="middle">homologa</text>
+          <text class="const-agent-lbl" x="290" y="63"  text-anchor="middle">cancela</text>
+          <text class="const-agent-lbl" x="322" y="95"  text-anchor="middle">beca</text>
+          <rect class="role-pill r3" x="250" y="246" width="80" height="28" rx="4"/>
+          <text class="role-name"  x="290" y="264" text-anchor="middle">Trámite</text>
+          <text class="role-meta"  x="290" y="292" text-anchor="middle">agent.03</text>
+        </g>
+
+        <!-- ============ AGENTE 4  OFICIO ============ -->
+        <g class="role-col" data-role="oficio">
+          <line class="const-edge flow" x1="400" y1="260" x2="368" y2="110" style="animation-delay:.5s"/>
+          <line class="const-edge flow" x1="400" y1="260" x2="400" y2="78"  style="animation-delay:.9s"/>
+          <line class="const-edge flow" x1="400" y1="260" x2="432" y2="110" style="animation-delay:1.3s"/>
+          <g class="const-agent ink" style="animation-delay:.5s"><circle cx="368" cy="110" r="6"/></g>
+          <g class="const-agent ink" style="animation-delay:.9s"><circle cx="400" cy="78"  r="6"/></g>
+          <g class="const-agent ink" style="animation-delay:1.3s"><circle cx="432" cy="110" r="6"/></g>
+          <text class="const-agent-lbl" x="368" y="95"  text-anchor="middle">plantilla</text>
+          <text class="const-agent-lbl" x="400" y="63"  text-anchor="middle">redactor</text>
+          <text class="const-agent-lbl" x="432" y="95"  text-anchor="middle">revisor</text>
+          <rect class="role-pill r4" x="360" y="246" width="80" height="28" rx="4"/>
+          <text class="role-name"  x="400" y="264" text-anchor="middle">Oficio</text>
+          <text class="role-meta"  x="400" y="292" text-anchor="middle">agent.04</text>
+        </g>
+
+        <!-- ============ CONVERGENCE → OUTPUT ============ -->
+        <path class="const-edge conv" d="M 70 290 Q 70 360 230 410"/>
+        <path class="const-edge conv" d="M 180 290 Q 180 360 230 410"/>
+        <path class="const-edge conv" d="M 290 290 Q 290 360 230 410"/>
+        <path class="const-edge conv" d="M 400 290 Q 400 360 230 410"/>
+
+        <g class="const-node lg">
+          <circle cx="230" cy="410" r="22"/>
+        </g>
+        <rect class="output-pill" x="150" y="442" width="160" height="32" rx="4"/>
+        <text class="output-title" x="230" y="462" text-anchor="middle">respuesta · fundamentada</text>
+        <text class="const-tick"   x="230" y="498" text-anchor="middle">artículo · parágrafo · numeral · fuente</text>
+      </svg>
+    </div>
+
+    <!-- ============== GRAPH (Variant B: Trajectory · alt) ============== -->
+    <div class="trajectory" data-variant="B" aria-hidden="true">
+      <svg viewBox="0 0 460 480" preserveAspectRatio="xMidYMid meet">
+        <!-- single continuous path traversing nodes -->
+        <path class="traj-path" d="M 80 80 L 200 110 L 320 70 L 400 150 L 360 270 L 410 380 L 290 420 L 200 360 L 110 410 L 60 320 L 130 230 L 230 180 L 320 280 L 240 320 L 180 250 L 80 80"/>
+        <path class="traj-path coral" d="M 230 180 L 320 70 M 230 180 L 360 270 M 230 180 L 130 230 M 230 180 L 290 420"/>
+
+        <!-- key nodes along the path -->
+        <circle class="traj-node" cx="80"  cy="80"  r="5"/>
+        <circle class="traj-node coral" cx="200" cy="110" r="6" style="animation-delay:0.5s"/>
+        <circle class="traj-node" cx="320" cy="70"  r="5" style="animation-delay:1s"/>
+        <circle class="traj-node" cx="400" cy="150" r="5" style="animation-delay:1.5s"/>
+        <circle class="traj-node coral" cx="360" cy="270" r="7" style="animation-delay:2s"/>
+        <circle class="traj-node" cx="230" cy="180" r="9" style="animation-delay:2.5s"/>
+        <circle class="traj-node" cx="290" cy="420" r="5" style="animation-delay:3s"/>
+        <circle class="traj-node" cx="60"  cy="320" r="5" style="animation-delay:3.5s"/>
+        <circle class="traj-node coral" cx="130" cy="230" r="6" style="animation-delay:4s"/>
+      </svg>
+    </div>
+
+    <!-- legend -->
+    <div class="const-legend">
+      <span class="item"><span class="swatch s1"></span>agente estudiante</span>
+      <span class="item"><span class="swatch s2"></span>agente operativo</span>
+      <span class="item"><span class="swatch s3"></span>contexto rag</span>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="manifesto" id="reto">
+  <div class="wrap manifesto-inner">
+    <div class="eyebrow">El reto</div>
+    <h2>Lo que está en el PDF tiene que <em>poder responderse</em>.</h2>
+    <p class="kicker">La Facultad de Ingeniería concentra más de mil documentos vivos — reglamento estudiantil, acuerdos de matrícula, calendarios, resoluciones, formatos. Encontrar una respuesta precisa toma horas. AgentNexus elimina la fricción: pregunta en lenguaje natural y recibe el artículo exacto que sustenta la respuesta.</p>
+
+    <div class="strikes">
+      <div class="strike">
+        <div class="from">PDF de 240 páginas</div>
+        <div class="to">Conversación con cita.</div>
+        <div class="desc">El reglamento estudiantil se vuelve consultable en segundos. Cada respuesta lleva artículo, parágrafo y enlace a la fuente oficial.</div>
+      </div>
+      <div class="strike">
+        <div class="from">Ventanilla y correos</div>
+        <div class="to">Trámite guiado.</div>
+        <div class="desc">Homologaciones, cancelaciones, becas: el copiloto explica el procedimiento, los plazos y genera el oficio que el estudiante necesita radicar.</div>
+      </div>
+      <div class="strike">
+        <div class="from">“Me parece que”</div>
+        <div class="to">Respuesta fundamentada.</div>
+        <div class="desc">Cero alucinaciones. El sistema solo responde con lo que está en la norma pública de la UdeA — y muestra de dónde lo sacó.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== AGENTES (2 capas) ============== -->
+<section class="modules" id="agentes">
+  <div class="wrap">
+
+    <!-- CAPA 01: ESTUDIANTE -->
+    <div class="group" id="capa-estudiante">
+      <div class="group-head">
+        <div>
+          <div class="num">Capa 01 <span>/ Estudiante</span></div>
+          <h3>Lo que el estudiante pregunta.</h3>
+        </div>
+        <p class="h-desc">Tres agentes especializados resuelven las consultas de alto impacto: reglamento, matrículas y trámites. Cada uno responde en lenguaje natural con cita verificable a la fuente oficial.</p>
+      </div>
+
+      <div class="module-grid">
+        <!-- 1. REGLAMENTA -->
+        <article class="module">
+          <div class="module-vis synaptrac" aria-hidden="true">
+            <img src="assets/isologo.png" alt="" class="logo-img sm corner-spark" />
+            <div class="vis-chips">
+              <span class="vis-chip">Art. 84</span>
+              <span class="vis-chip">Pérdida cupo</span>
+              <span class="vis-chip">Promedio</span>
+              <span class="vis-chip">Sanción</span>
+              <span class="vis-chip">Capítulo III</span>
+              <span class="vis-chip">Acuerdo 1·2022</span>
+            </div>
+            <span class="lab">reglamento · reglamenta</span>
+          </div>
+          <div class="module-body">
+            <div class="module-name-row">
+              <div>
+                <div class="module-role">Reglamenta</div>
+                <div class="module-name">Reglamento, en NL.</div>
+              </div>
+              <span class="module-num">A-01</span>
+            </div>
+            <p class="module-desc">Consulta el reglamento estudiantil de pregrado como si fuera un colega. Devuelve la respuesta con el artículo, parágrafo y enlace exacto al PDF oficial — nunca inventa.</p>
+            <div class="module-foot">
+              <span class="stack">RAG · Rasa NLU</span>
+              <a class="link" href="AgentNexus Roles.html">Probar →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 2. MATRÍCULA -->
+        <article class="module">
+          <div class="module-vis kmerge" aria-hidden="true">
+            <img src="assets/isologo.png" alt="" class="logo-img sm corner-spark" style="filter: invert(1);" />
+            <div class="vis-commits">
+              <div class="row add"><span></span><span class="h">prereq</span><span class="msg">+ Cálculo III habilitado</span><span>OK</span></div>
+              <div class="row"><span></span><span class="h">riesgo</span><span class="msg">~ promedio 3.1 · cupo crítico</span><span>!</span></div>
+              <div class="row del"><span></span><span class="h">colisión</span><span class="msg">- horario Mecánica II</span><span>X</span></div>
+              <div class="row add"><span></span><span class="h">plan</span><span class="msg">+ 18 créd. sugeridos</span><span>OK</span></div>
+            </div>
+            <span class="lab">matrículas · matrícula</span>
+          </div>
+          <div class="module-body">
+            <div class="module-name-row">
+              <div>
+                <div class="module-role">Matrícula</div>
+                <div class="module-name">El semestre sin sorpresas.</div>
+              </div>
+              <span class="module-num">A-02</span>
+            </div>
+            <p class="module-desc">Cruza prerrequisitos, promedio y límite de créditos contra la normativa vigente. Avisa de riesgos de pérdida de cupo y propone planes de matrícula viables.</p>
+            <div class="module-foot">
+              <span class="stack">LangGraph · Rasa</span>
+              <a class="link" href="AgentNexus Roles.html">Probar →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 3. TRÁMITE -->
+        <article class="module">
+          <div class="module-vis discursus" aria-hidden="true">
+            <img src="assets/isologo.png" alt="" class="logo-img sm corner-spark" />
+            <div class="vis-chips">
+              <span class="vis-chip">Homologación</span>
+              <span class="vis-chip">Cancelación</span>
+              <span class="vis-chip">Beca BPP</span>
+              <span class="vis-chip">Reintegro</span>
+              <span class="vis-chip">Doble titulación</span>
+              <span class="vis-chip">Movilidad</span>
+            </div>
+            <span class="lab">trámites · trámite</span>
+          </div>
+          <div class="module-body">
+            <div class="module-name-row">
+              <div>
+                <div class="module-role">Trámite</div>
+                <div class="module-name">Sin pasillo.</div>
+              </div>
+              <span class="module-num">A-03</span>
+            </div>
+            <p class="module-desc">Explica plazos, requisitos y dependencias de cualquier trámite académico de la Facultad — homologaciones, cancelaciones, becas, reintegros, movilidad — con la norma exacta que lo respalda.</p>
+            <div class="module-foot">
+              <span class="stack">Rasa stories</span>
+              <a class="link" href="AgentNexus Roles.html">Probar →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    <!-- CAPA 02: PERSONAL ADMINISTRATIVO -->
+    <div class="group" id="capa-personal">
+      <div class="group-head">
+        <div>
+          <div class="num">Capa 02 <span>/ Personal administrativo</span></div>
+          <h3>Lo que el personal opera.</h3>
+        </div>
+        <p class="h-desc">Tres agentes para Decanatura, Asuntos Estudiantiles y Admisiones: redacción de oficios, búsqueda normativa cruzada y trazabilidad. La capa que vuelve el copiloto auditable.</p>
+      </div>
+
+      <div class="module-grid">
+        <!-- 4. OFICIO -->
+        <article class="module">
+          <div class="module-vis axiom" aria-hidden="true">
+            <img src="assets/isologo.png" alt="" class="logo-img sm corner-spark" style="filter: invert(1);" />
+            <div class="vis-blocks">
+              <div class="blk"><span class="num">OF-2026-0184</span><span class="age">resolución</span></div>
+              <div class="blk"><span class="num">OF-2026-0183</span><span class="age">homologación</span></div>
+              <div class="blk"><span class="num">OF-2026-0182</span><span class="age">cancelación ext.</span></div>
+              <div class="blk"><span class="num">OF-2026-0181</span><span class="age">solicitud beca</span></div>
+            </div>
+            <span class="lab">cartas · oficio</span>
+          </div>
+          <div class="module-body">
+            <div class="module-name-row">
+              <div>
+                <div class="module-role">Oficio</div>
+                <div class="module-name">Cartas con la norma.</div>
+              </div>
+              <span class="module-num">A-04</span>
+            </div>
+            <p class="module-desc">Genera cartas, solicitudes y resoluciones oficiales en el formato de la Facultad. Cada párrafo cita el artículo que lo sustenta — listo para firma humana.</p>
+            <div class="module-foot">
+              <span class="stack">CrewAI · plantillas</span>
+              <a class="link" href="AgentNexus Roles.html">Probar →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 5. CITADOR -->
+        <article class="module">
+          <div class="module-vis revisor" aria-hidden="true">
+            <img src="assets/isologo.png" alt="" class="logo-img sm corner-spark" />
+            <div class="vis-receipt">
+              <div class="row"><span class="k">Documento</span><span>Acuerdo 1·CSU</span></div>
+              <div class="row"><span class="k">Artículo</span><span>84 · parágrafo 2</span></div>
+              <div class="row"><span class="k">Vigencia</span><span>2024 → actual</span></div>
+              <div class="row"><span class="k">Hash</span><span>0x3a9f…c42b</span></div>
+              <div class="row tot"><span class="k">Estado</span><span class="badge">VIGENTE</span></div>
+            </div>
+            <span class="lab">normativo · citador</span>
+          </div>
+          <div class="module-body">
+            <div class="module-name-row">
+              <div>
+                <div class="module-role">Citador</div>
+                <div class="module-name">Cualquier norma, al instante.</div>
+              </div>
+              <span class="module-num">A-05</span>
+            </div>
+            <p class="module-desc">Buscador normativo transversal. Cruza reglamento, acuerdos y resoluciones del portal oficial. Devuelve artículo, parágrafo, numeral y vigencia.</p>
+            <div class="module-foot">
+              <span class="stack">Vector store</span>
+              <a class="link" href="AgentNexus Roles.html">Probar →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- 6. AUDITOR -->
+        <article class="module">
+          <div class="module-vis professor" aria-hidden="true">
+            <img src="assets/isologo.png" alt="" class="logo-img sm corner-spark" />
+            <div class="vis-prof">
+              <div class="tile">
+                <span class="k">Consultas</span>
+                <span class="v">1,284</span>
+                <span class="delta">+12% wk</span>
+              </div>
+              <div class="tile">
+                <span class="k">Citas verif.</span>
+                <span class="v">100%</span>
+                <span class="delta">cero halu.</span>
+              </div>
+              <div class="tile bar">
+                <span class="k">Cobertura normativa indexada</span>
+                <span class="v">94 / 100</span>
+                <div class="track"><div class="fill"></div></div>
+              </div>
+            </div>
+            <span class="lab">trazabilidad · auditor</span>
+          </div>
+          <div class="module-body">
+            <div class="module-name-row">
+              <div>
+                <div class="module-role">Auditor</div>
+                <div class="module-name">Cada respuesta firmada.</div>
+              </div>
+              <span class="module-num">A-06</span>
+            </div>
+            <p class="module-desc">Cada respuesta del copiloto queda registrada con su fuente, versión del documento y huella. La Facultad audita cómo se respondió, qué se citó y cuándo se actualizó.</p>
+            <div class="module-foot">
+              <span class="stack">human-in-the-loop</span>
+              <a class="link" href="AgentNexus Roles.html">Probar →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============== ARCHITECTURE ============== -->
+<section class="architecture" id="arquitectura">
+  <div class="wrap">
+    <div class="arch-head">
+      <div class="eyebrow">Arquitectura · RAG local + agentes</div>
+      <h2 class="h1">Una sola tubería.<br/>De la pregunta a la cita.</h2>
+      <p>Ingesta de PDFs oficiales, embeddings locales, NLU conversacional y un router que despacha al agente especialista. Toda la respuesta lleva su fuente — fundamentada por diseño.</p>
+    </div>
+
+    <div class="arch-wrap">
+      <ul class="arch-list">
+        <li><strong>Portal normativa.udea.edu.co</strong> — fuente pública única. Cero copyright, cero scraping.</li>
+        <li><strong>Ingesta</strong> — parser PDF, chunking semántico, normalización de artículos y parágrafos.</li>
+        <li><strong>Vector store</strong> — embeddings locales · retrieval top-k con metadatos de cita.</li>
+        <li><strong>Rasa NLU</strong> — clasificación de intents · extracción de entidades.</li>
+        <li><strong>Router (LangGraph)</strong> — despacho con estado al agente correcto.</li>
+        <li><strong>Citation guard</strong> — cada respuesta exige artículo + parágrafo verificado.</li>
+        <li><strong>UI Gradio</strong> — chat conversacional con panel de fuentes.</li>
+      </ul>
+
+      <div class="arch-diagram">
+        <div class="head">
+          <span>SESSION · copilot_run_0x7a3f</span>
+          <span class="live">● activo</span>
+        </div>
+        <div class="arch-stage">
+          <svg viewBox="0 0 520 380" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+              <linearGradient id="archCoral" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FF9E78"/>
+                <stop offset="100%" stop-color="#E55C32"/>
+              </linearGradient>
+              <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0 0 L10 5 L0 10 z" fill="var(--line-strong)"/>
+              </marker>
+            </defs>
+
+            <!-- COLUMN 1: SOURCES -->
+            <text x="80" y="22" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--muted)" letter-spacing="1.4">01 · FUENTES</text>
+
+            <rect x="20" y="34" width="120" height="42" fill="var(--cream-02)" stroke="var(--line-strong)" rx="6"/>
+            <text x="80" y="54" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="var(--ink)">PDFs UdeA</text>
+            <text x="80" y="68" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--muted)">portal normativa</text>
+
+            <rect x="20" y="96" width="120" height="42" fill="var(--cream-02)" stroke="var(--line-strong)" rx="6"/>
+            <text x="80" y="116" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="var(--ink)">Ingesta</text>
+            <text x="80" y="130" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--muted)">parser · chunk</text>
+
+            <rect x="20" y="158" width="120" height="42" fill="var(--cream-02)" stroke="var(--line-strong)" rx="6"/>
+            <text x="80" y="178" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="var(--ink)">Vector store</text>
+            <text x="80" y="192" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--muted)">embeddings local</text>
+
+            <rect x="20" y="230" width="120" height="42" fill="var(--cream-02)" stroke="var(--line-strong)" rx="6"/>
+            <text x="80" y="250" text-anchor="middle" font-family="JetBrains Mono" font-size="10" fill="var(--ink)">Usuario</text>
+            <text x="80" y="264" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--muted)">estudiante / admin</text>
+
+            <!-- COLUMN 2: ORCHESTRATOR -->
+            <text x="260" y="22" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--muted)" letter-spacing="1.4">02 · NLU + ROUTER</text>
+
+            <rect x="190" y="40" width="140" height="260" fill="#fff" stroke="var(--ink)" stroke-width="1.5" rx="8"/>
+            <text x="260" y="62" text-anchor="middle" font-family="Source Serif 4" font-weight="500" font-size="14" fill="var(--ink)">LangGraph</text>
+            <text x="260" y="76" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--muted)">stateful router</text>
+
+            <rect x="205" y="92" width="110" height="36" fill="var(--coral-100)" stroke="url(#archCoral)" stroke-width="1.5" rx="4"/>
+            <text x="260" y="108" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--ink)">RASA NLU</text>
+            <text x="260" y="120" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="var(--muted)">intent + entities</text>
+
+            <rect x="205" y="136" width="110" height="36" fill="var(--verified-50)" stroke="var(--verified)" rx="4"/>
+            <text x="260" y="152" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--ink)">RAG retrieve</text>
+            <text x="260" y="164" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="var(--muted)">top-k + metadata</text>
+
+            <rect x="205" y="180" width="110" height="36" fill="var(--signal-50)" stroke="var(--signal)" rx="4"/>
+            <text x="260" y="196" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--ink)">Agent router</text>
+            <text x="260" y="208" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="var(--muted)">dispatch by intent</text>
+
+            <rect x="205" y="224" width="110" height="36" fill="var(--ink)" rx="4"/>
+            <text x="260" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#fff">Citation guard</text>
+            <text x="260" y="252" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="rgba(255,255,255,0.6)">art. + parágrafo</text>
+
+            <rect x="205" y="270" width="110" height="22" fill="var(--cream-02)" stroke="var(--line-strong)" rx="3"/>
+            <text x="260" y="285" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--muted)">+ Gradio UI</text>
+
+            <!-- COLUMN 3: AGENTS -->
+            <text x="440" y="22" text-anchor="middle" font-family="JetBrains Mono" font-size="8" fill="var(--muted)" letter-spacing="1.4">03 · AGENTES</text>
+
+            <rect x="380" y="34" width="120" height="34" fill="#fff" stroke="url(#archCoral)" stroke-width="1.5" rx="6"/>
+            <text x="440" y="50" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--ink)">REGLAMENTA</text>
+            <text x="440" y="62" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="var(--muted)">reglamento</text>
+
+            <rect x="380" y="76" width="120" height="34" fill="#fff" stroke="url(#archCoral)" stroke-width="1.5" rx="6"/>
+            <text x="440" y="92" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--ink)">MATRÍCULA</text>
+            <text x="440" y="104" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="var(--muted)">prerreq · riesgo</text>
+
+            <rect x="380" y="118" width="120" height="34" fill="#fff" stroke="url(#archCoral)" stroke-width="1.5" rx="6"/>
+            <text x="440" y="134" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--ink)">TRÁMITE</text>
+            <text x="440" y="146" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="var(--muted)">homolog · beca</text>
+
+            <rect x="380" y="160" width="120" height="34" fill="#fff" stroke="var(--ink)" rx="6"/>
+            <text x="440" y="176" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--ink)">OFICIO</text>
+            <text x="440" y="188" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="var(--muted)">cartas</text>
+
+            <rect x="380" y="202" width="120" height="34" fill="#fff" stroke="var(--ink)" rx="6"/>
+            <text x="440" y="218" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="var(--ink)">CITADOR</text>
+            <text x="440" y="230" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="var(--muted)">cita exacta</text>
+
+            <rect x="380" y="244" width="120" height="34" fill="var(--ink)" rx="6"/>
+            <text x="440" y="260" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#fff">AUDITOR</text>
+            <text x="440" y="272" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="rgba(255,255,255,0.6)">trazabilidad</text>
+
+            <rect x="380" y="294" width="120" height="30" fill="#fff" stroke="url(#archCoral)" stroke-width="1.5" rx="6"/>
+            <text x="440" y="313" text-anchor="middle" font-family="Source Serif 4" font-weight="500" font-size="11" fill="var(--ink)">Respuesta fundamentada</text>
+
+            <g stroke="var(--line-strong)" stroke-width="1.2" fill="none" marker-end="url(#arr)">
+              <!-- col1 → col2 -->
+              <line x1="140" y1="55" x2="190" y2="105"/>
+              <line x1="140" y1="117" x2="190" y2="115"/>
+              <line x1="140" y1="179" x2="190" y2="152"/>
+              <line x1="140" y1="251" x2="190" y2="195"/>
+              <!-- col2 → col3 -->
+              <line x1="330" y1="200" x2="380" y2="50"/>
+              <line x1="330" y1="200" x2="380" y2="92"/>
+              <line x1="330" y1="200" x2="380" y2="134"/>
+              <line x1="330" y1="200" x2="380" y2="176"/>
+              <line x1="330" y1="200" x2="380" y2="218"/>
+              <line x1="330" y1="242" x2="380" y2="260"/>
+              <line x1="330" y1="284" x2="380" y2="308"/>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== FUENTES ============== -->
+<section class="fuentes" id="fuentes">
+  <div class="wrap fuentes-wrap">
+    <div class="fuentes-head">
+      <div class="eyebrow">Fuentes · datos públicos UdeA</div>
+      <h2 class="h2">Lo que el copiloto sabe.<br/>Y de dónde lo sabe.</h2>
+      <p>El sistema se alimenta exclusivamente del portal normativo oficial. Cero scraping, cero copyright, cero ambigüedad sobre la procedencia. Cada documento se versiona y firma al indexarse.</p>
+      <a href="https://normativa.udea.edu.co/Documentos/Consultar" target="_blank" rel="noopener" class="fuentes-link">
+        <span class="dot"></span>
+        <span>normativa.udea.edu.co/Documentos/Consultar</span>
+        <svg viewBox="0 0 14 14" width="11" height="11" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+
+    <div class="fuentes-grid">
+      <div class="src">
+        <div class="src-head"><span class="src-tag">REGLAMENTO</span><span class="src-id">DOC-01</span></div>
+        <div class="src-title">Reglamento Estudiantil de Pregrado</div>
+        <div class="src-meta">Acuerdo Superior · 240 pág. · vigente</div>
+        <div class="src-bar"><div class="src-fill" style="width:100%"></div></div>
+        <div class="src-foot"><span>1,284 chunks</span><span>indexado</span></div>
+      </div>
+      <div class="src">
+        <div class="src-head"><span class="src-tag tag-2">MATRÍCULA</span><span class="src-id">DOC-02</span></div>
+        <div class="src-title">Acuerdo 1·CSU · matrícula y costos</div>
+        <div class="src-meta">Consejo Superior · 38 pág. · vigente</div>
+        <div class="src-bar"><div class="src-fill" style="width:100%"></div></div>
+        <div class="src-foot"><span>312 chunks</span><span>indexado</span></div>
+      </div>
+      <div class="src">
+        <div class="src-head"><span class="src-tag tag-3">TRÁMITES</span><span class="src-id">DOC-03</span></div>
+        <div class="src-title">Resoluciones de Decanatura</div>
+        <div class="src-meta">Facultad Ingeniería · 87 doc. · 2020 → 2026</div>
+        <div class="src-bar"><div class="src-fill" style="width:100%"></div></div>
+        <div class="src-foot"><span>2,041 chunks</span><span>indexado</span></div>
+      </div>
+      <div class="src">
+        <div class="src-head"><span class="src-tag tag-4">BECAS</span><span class="src-id">DOC-04</span></div>
+        <div class="src-title">Programa BPP · reglamentación</div>
+        <div class="src-meta">Bienestar Univ. · 64 pág. · vigente</div>
+        <div class="src-bar"><div class="src-fill" style="width:100%"></div></div>
+        <div class="src-foot"><span>418 chunks</span><span>indexado</span></div>
+      </div>
+      <div class="src">
+        <div class="src-head"><span class="src-tag tag-5">HOMOLOGACIÓN</span><span class="src-id">DOC-05</span></div>
+        <div class="src-title">Acuerdo de homologación y reconocimiento</div>
+        <div class="src-meta">Vicerrectoría Doc. · 22 pág. · vigente</div>
+        <div class="src-bar"><div class="src-fill" style="width:100%"></div></div>
+        <div class="src-foot"><span>176 chunks</span><span>indexado</span></div>
+      </div>
+      <div class="src">
+        <div class="src-head"><span class="src-tag tag-6">CALENDARIO</span><span class="src-id">DOC-06</span></div>
+        <div class="src-title">Calendario académico 2026-1 / 2026-2</div>
+        <div class="src-meta">Dirección académica · vigente</div>
+        <div class="src-bar"><div class="src-fill" style="width:100%"></div></div>
+        <div class="src-foot"><span>48 chunks</span><span>indexado</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============== RÚBRICA ============== -->
+<section class="opensrc" id="rubrica">
+  <div class="wrap os-grid">
+    <div class="os-copy">
+      <div class="eyebrow">Rúbrica del reto · cómo la cumplimos</div>
+      <h2>Cinco criterios.<br/>Cinco respuestas <em>verificables</em>.</h2>
+      <p>Esta no es una landing decorativa. Cada criterio de evaluación del reto tiene una decisión de diseño trazable dentro del MVP.</p>
+      <ul class="os-claims">
+        <li><strong>Adecuación al reto</strong> — 100% sobre normativa.udea.edu.co · Python · Rasa + LangGraph · UI Gradio.</li>
+        <li><strong>Viabilidad técnica</strong> — datos públicos, sin web scraping, RAG local con embeddings open-source.</li>
+        <li><strong>Innovación</strong> — 6 agentes especializados orquestados con NLU conversacional + cita verificada por diseño.</li>
+        <li><strong>Impacto potencial</strong> — ~35.000 estudiantes + personal admin. Horas/mes de consulta reducidas en orden de magnitud.</li>
+        <li><strong>Escalabilidad modular</strong> — agentes drop-in. Cualquier facultad de la UdeA adopta el copiloto cambiando solo el corpus.</li>
+      </ul>
+      <a href="AgentNexus Roles.html" class="cta cta-enter">
+        <span class="pdot" aria-hidden="true"></span>
+        <span>Probar el copiloto</span>
+        <span class="arrow-pill" aria-hidden="true">
+          <svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+        </span>
+      </a>
+    </div>
+
+    <div class="os-terminal" aria-hidden="true">
+      <div class="ttop">
+        <span class="dots"><span></span><span></span><span></span></span>
+        <span>~/copiloto-udea · main</span>
+      </div>
+      <div class="tbody">
+        <span class="tline"><span class="prompt">$</span><span class="cmd">python ingest.py --source normativa.udea.edu.co</span></span>
+        <span class="tline mute">parsing 87 PDFs · chunking by article · embedding…</span>
+        <span class="tline ok">✓ 1,284 chunks · vector store ready</span>
+        <span class="tline"><span class="prompt">$</span><span class="cmd">rasa train &amp;&amp; rasa run --enable-api</span></span>
+        <span class="tline ok">✓ rasa NLU · 6 intents · reglamenta / matrícula / trámite / oficio / citador / auditor</span>
+        <span class="tline ok">✓ langgraph router online</span>
+        <span class="tline"><span class="prompt">$</span><span class="cmd">gradio app.py</span></span>
+        <span class="tline ok">✓ copiloto listening on http://localhost:7860</span>
+        <span class="tline"><span class="star">user</span> “¿Puedo cancelar dos materias en el mismo semestre?”</span>
+        <span class="tline ok">→ Reglamento Estudiantil · Art. 113 · parágrafo 2</span>
+        <span class="tline"><span class="prompt">$</span><span class="cursor"></span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============== MINI FOOTER ============== -->
+<footer class="mini-foot">
+  <div class="mini-foot-inner">
+    <span class="wordmark">
+      <img src="assets/isologo.png" alt="" class="logo-img sm" style="filter: invert(1);" />
+      <span>AgentNexus<span class="dot">.</span></span>
+    </span>
+    <div class="right">
+      <span>MVP · 24h</span>
+      <span>Facultad de Ingeniería</span>
+      <span>UdeA · 2026</span>
+    </div>
+  </div>
+</footer>
+
+<!-- ============== TRANSITION OVERLAY ============== -->
+<div class="nav-overlay" id="navOverlay" aria-hidden="true">
+  <div class="core">
+    <img src="assets/isologo.png" alt="" class="logo-img lg" />
+    <div class="spin" aria-hidden="true"></div>
+    <div class="label">Activando copiloto…</div>
+  </div>
+</div>
+
+<script>
+  // nav scroll state
+  const nav = document.getElementById('nav');
+  const onScroll = () => {
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  // tweaks: switch graph + bridge variants
+  (function() {
+    const root = document.documentElement;
+    const body = document.body;
+    // restore from localStorage
+    try {
+      const g = localStorage.getItem('an-graph');
+      const b = localStorage.getItem('an-bridge');
+      if (g) body.setAttribute('data-graph', g);
+      if (b) body.setAttribute('data-bridge', b);
+    } catch (e) {}
+
+    const btn = document.getElementById('tweaks-btn');
+    const panel = document.getElementById('tweaks-panel');
+    if (btn && panel) {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        panel.classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        if (!panel.contains(e.target) && e.target !== btn) panel.classList.remove('open');
+      });
+    }
+
+    // graph option group
+    document.querySelectorAll('.tweak-opt[data-graph]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const v = el.getAttribute('data-graph');
+        body.setAttribute('data-graph', v);
+        try { localStorage.setItem('an-graph', v); } catch (e) {}
+        document.querySelectorAll('.tweak-opt[data-graph]').forEach(o => o.classList.toggle('active', o === el));
+      });
+      const cur = body.getAttribute('data-graph') || 'constellation';
+      el.classList.toggle('active', el.getAttribute('data-graph') === cur);
+    });
+    // bridge option group
+    document.querySelectorAll('.tweak-opt[data-bridge]').forEach((el) => {
+      el.addEventListener('click', () => {
+        const v = el.getAttribute('data-bridge');
+        body.setAttribute('data-bridge', v);
+        try { localStorage.setItem('an-bridge', v); } catch (e) {}
+        document.querySelectorAll('.tweak-opt[data-bridge]').forEach(o => o.classList.toggle('active', o === el));
+      });
+      const cur = body.getAttribute('data-bridge') || 'A';
+      el.classList.toggle('active', el.getAttribute('data-bridge') === cur);
+    });
+  })();
+</script>
+
+<!-- TWEAKS UI -->
+<button class="tweaks-btn" id="tweaks-btn" aria-label="Variantes">
+  <svg viewBox="0 0 16 16" fill="none"><path d="M2 5h6M11 5h3M2 11h3M8 11h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="9.5" cy="5" r="1.7" fill="currentColor"/><circle cx="6.5" cy="11" r="1.7" fill="currentColor"/></svg>
+</button>
+<div class="tweaks-panel" id="tweaks-panel" role="dialog" aria-label="Variantes">
+  <h4>Grafo del hero</h4>
+  <div class="tweak-group">
+    <button class="tweak-opt" data-graph="constellation">Constelación</button>
+    <button class="tweak-opt" data-graph="trajectory">Trayectoria</button>
+  </div>
+</div>
+<script>
+  // (continuation noop)
+  ;
+
+  // CTA → overlay transition → roles page
+  const overlay = document.getElementById('navOverlay');
+  document.querySelectorAll('a.cta-enter, .module-foot a.link').forEach(a => {
+    a.addEventListener('click', (e) => {
+      const target = a.getAttribute('href');
+      if (!target || target.startsWith('#') || target.startsWith('http')) return;
+      e.preventDefault();
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden', 'false');
+      setTimeout(() => { window.location.href = target; }, 620);
+    });
+  });
+</script>
+
+</script>
+
+</body>
+</html>

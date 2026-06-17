@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>AgentNexus — ¿Quién pregunta?</title>
+<link rel="icon" type="image/png" href="assets/isologo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --coral-100: #FFEFE6;
+    --coral-200: #FFDFCC;
+    --coral-300: #FFC2A3;
+    --coral-400: #FF9E78;
+    --coral-500: #FF7A52;
+    --coral-600: #E55C32;
+    --grad-orange: linear-gradient(135deg, var(--coral-400) 0%, var(--coral-600) 100%);
+    --cream: #FBF6F1;
+    --cream-02: #F4ECE3;
+    --paper: #FFFFFF;
+    --ink: #0D0D0D;
+    --body: #2E2A26;
+    --muted: #6B655E;
+    --line: #E6DED4;
+    --line-strong: #C9BFB3;
+
+    --serif: "Source Serif 4", Georgia, serif;
+    --sans:  "Inter", Arial, sans-serif;
+    --mono:  "JetBrains Mono", monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0; padding: 0;
+    width: 100%; height: 100%;
+    overflow: hidden;
+  }
+  body {
+    font-family: var(--sans);
+    color: var(--body);
+    background:
+      radial-gradient(120% 80% at 80% 5%, rgba(255,130,80,0.5), transparent 55%),
+      radial-gradient(60% 60% at 5% 95%, rgba(255,180,140,0.42), transparent 60%),
+      linear-gradient(180deg, #FFC9A8 0%, var(--coral-100) 60%, #FFF6EE 100%);
+    -webkit-font-smoothing: antialiased;
+    cursor: none;
+  }
+  a { color: inherit; text-decoration: none; }
+  button { font: inherit; cursor: none; border: 0; background: none; }
+  img { display: block; }
+  ::selection { background: var(--coral-500); color: #fff; }
+
+  /* ---------- CURSOR WAVE CANVAS ---------- */
+  #field {
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+  }
+
+  /* custom cursor */
+  #cursor {
+    position: fixed; z-index: 100;
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(13,13,13,0.4);
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(4px);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    transition: width .25s, height .25s, background .25s, border-color .25s;
+    mix-blend-mode: normal;
+  }
+  #cursor.hover {
+    width: 56px; height: 56px;
+    background: var(--ink);
+    border-color: var(--ink);
+  }
+  #cursor::before {
+    content: ""; position: absolute; left: 50%; top: 50%;
+    width: 4px; height: 4px; border-radius: 50%;
+    background: var(--ink);
+    transform: translate(-50%, -50%);
+    transition: background .25s;
+  }
+  #cursor.hover::before { background: var(--coral-400); }
+
+  /* ---------- LAYOUT (no-scroll viewport) ---------- */
+  .viewport {
+    position: relative; z-index: 2;
+    height: 100vh; width: 100%;
+    display: grid;
+    grid-template-rows: auto auto 1fr auto;
+    padding: 2rem clamp(1.5rem, 4vw, 4rem);
+    gap: 2rem;
+  }
+
+  /* nav */
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 1rem;
+  }
+  .wordmark {
+    font-family: var(--serif); font-weight: 500;
+    font-size: 1.25rem; color: var(--ink);
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    letter-spacing: -0.015em;
+  }
+  .wordmark img { width: 24px; height: 24px; object-fit: contain; }
+  .wordmark .dot {
+    background: var(--grad-orange);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+  .nav-back {
+    display: inline-flex; align-items: center; gap: 0.45rem;
+    font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink); padding: 0.5rem 0.85rem;
+    border-radius: 999px;
+    border: 1px solid rgba(13,13,13,0.2);
+    transition: background .15s, color .15s;
+  }
+  .nav-back:hover { background: var(--ink); color: #fff; }
+
+  /* title */
+  .head {
+    text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+  }
+  .head .eyebrow {
+    font-family: var(--mono); font-size: 0.68rem;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.6;
+    display: inline-flex; align-items: center; gap: 0.55rem;
+  }
+  .head .eyebrow .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--grad-orange);
+  }
+  .head h1 {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(2.4rem, 5.5vw, 4rem);
+    line-height: 1; letter-spacing: -0.025em;
+    color: var(--ink); margin: 0;
+  }
+  .head h1 em {
+    font-style: italic; font-weight: 400;
+    background: var(--grad-orange);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+  }
+
+  /* roles grid (fills available height) */
+  .roles {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 1fr 1fr;
+    gap: 1rem;
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+    align-self: center;
+    justify-self: center;
+  }
+  @media (max-width: 900px) { .roles { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(3, 1fr); } }
+  @media (max-width: 560px) {
+    .roles { grid-template-columns: 1fr; grid-template-rows: repeat(6, 1fr); }
+    .viewport { padding: 1rem; gap: 1rem; }
+  }
+
+  .role {
+    background: rgba(255,255,255,0.55);
+    border: 1px solid rgba(255,255,255,0.6);
+    border-radius: 14px;
+    padding: 1.25rem 1.4rem;
+    backdrop-filter: blur(10px) saturate(140%);
+    -webkit-backdrop-filter: blur(10px) saturate(140%);
+    text-align: left;
+    display: flex; flex-direction: column;
+    justify-content: space-between;
+    min-height: 0;
+    position: relative;
+    overflow: hidden;
+    transition: transform .25s, background .25s, border-color .25s, box-shadow .25s;
+  }
+  .role:hover {
+    background: rgba(255,255,255,0.85);
+    border-color: rgba(13,13,13,0.6);
+    transform: translateY(-2px);
+    box-shadow: 0 24px 50px -22px rgba(80,30,10,0.35);
+  }
+  .role::after {
+    content: ""; position: absolute;
+    right: -30px; top: -30px;
+    width: 100px; height: 100px;
+    background: var(--grad-orange);
+    border-radius: 50%;
+    opacity: 0.1;
+    transition: transform .35s ease, opacity .35s ease;
+  }
+  .role:hover::after { transform: scale(1.6); opacity: 0.22; }
+
+  .role-num {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--coral-600);
+  }
+  .role-name {
+    font-family: var(--serif); font-weight: 500;
+    font-size: clamp(1.6rem, 2.6vw, 2.1rem);
+    line-height: 1; letter-spacing: -0.015em;
+    color: var(--ink); margin: 0.5rem 0 0;
+  }
+  .role-target {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--muted);
+    display: inline-flex; align-items: center; gap: 0.4rem;
+    margin-top: 0.55rem;
+  }
+  .role-target b {
+    color: var(--ink); font-weight: 600;
+  }
+  .role-arrow {
+    display: inline-grid; place-items: center;
+    width: 30px; height: 30px;
+    border-radius: 999px;
+    background: var(--grad-orange);
+    color: var(--ink);
+    align-self: flex-end;
+    transition: transform .2s;
+  }
+  .role:hover .role-arrow { transform: translateX(3px); }
+  .role-arrow svg { width: 13px; height: 13px; }
+
+  .role-foot {
+    display: flex; justify-content: space-between; align-items: flex-end;
+  }
+
+  /* footer (mini meta) */
+  .foot {
+    display: flex; align-items: center; justify-content: space-between;
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--ink); opacity: 0.45;
+  }
+  .foot .right { display: flex; gap: 1rem; }
+
+  /* ---------- entry overlay (when navigating to platform) ---------- */
+  #nav-overlay {
+    position: fixed; inset: 0; z-index: 999;
+    background: var(--ink);
+    transform: translateY(100%);
+    pointer-events: none;
+    transition: transform .55s cubic-bezier(0.86, 0, 0.07, 1);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column; gap: 1rem;
+  }
+  #nav-overlay.active { transform: translateY(0); pointer-events: auto; }
+  #nav-overlay .core {
+    opacity: 0; transform: scale(0.94);
+    transition: opacity .35s ease .2s, transform .35s ease .2s;
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+    color: #fff;
+  }
+  #nav-overlay.active .core { opacity: 1; transform: scale(1); }
+  #nav-overlay img { width: 48px; height: 48px; filter: invert(1); }
+  #nav-overlay .rname {
+    font-family: var(--serif); font-weight: 400; font-style: italic;
+    background: var(--grad-orange);
+    -webkit-background-clip: text; background-clip: text;
+    color: transparent;
+    font-size: 1.4rem;
+  }
+  #nav-overlay .spin {
+    width: 26px; height: 26px;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-top-color: var(--coral-500);
+    border-radius: 50%;
+    animation: spin 0.85s linear infinite;
+  }
+  #nav-overlay .lab {
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+</style>
+</head>
+<body>
+  <canvas id="field" aria-hidden="true"></canvas>
+  <div id="cursor" aria-hidden="true"></div>
+
+  <div class="viewport">
+    <nav class="nav">
+      <a href="AgentNexus.html" class="wordmark" aria-label="AgentNexus inicio">
+        <img src="assets/isologo.png" alt="" />
+        <span>AgentNexus<span class="dot">.</span></span>
+      </a>
+      <a href="AgentNexus.html" class="nav-back">
+        <svg viewBox="0 0 14 14" width="11" height="11" fill="none"><path d="M11 7H3M7 3 3 7l4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>
+        <span>Volver</span>
+      </a>
+    </nav>
+
+    <header class="head">
+      <span class="eyebrow"><span class="dot"></span>Selecciona tu perfil</span>
+      <h1>¿Quién <em>pregunta</em>?</h1>
+    </header>
+
+    <section class="roles">
+      <button class="role" data-role="reglamenta" data-name="Reglamenta">
+        <div>
+          <div class="role-num">Estudiante · 01</div>
+          <h2 class="role-name">Reglamento</h2>
+          <div class="role-target">→ activa <b>REGLAMENTA</b></div>
+        </div>
+        <div class="role-foot">
+          <span></span>
+          <span class="role-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+        </div>
+      </button>
+
+      <button class="role" data-role="matricula" data-name="Matrícula">
+        <div>
+          <div class="role-num">Estudiante · 02</div>
+          <h2 class="role-name">Matrícula</h2>
+          <div class="role-target">→ activa <b>MATRÍCULA</b></div>
+        </div>
+        <div class="role-foot">
+          <span></span>
+          <span class="role-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+        </div>
+      </button>
+
+      <button class="role" data-role="tramite" data-name="Trámite">
+        <div>
+          <div class="role-num">Estudiante · 03</div>
+          <h2 class="role-name">Trámite</h2>
+          <div class="role-target">→ activa <b>TRÁMITE</b></div>
+        </div>
+        <div class="role-foot">
+          <span></span>
+          <span class="role-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+        </div>
+      </button>
+
+      <button class="role" data-role="oficio" data-name="Oficio">
+        <div>
+          <div class="role-num">Admin · 04</div>
+          <h2 class="role-name">Oficio</h2>
+          <div class="role-target">→ activa <b>OFICIO</b></div>
+        </div>
+        <div class="role-foot">
+          <span></span>
+          <span class="role-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+        </div>
+      </button>
+
+      <button class="role" data-role="citador" data-name="Citador">
+        <div>
+          <div class="role-num">Admin · 05</div>
+          <h2 class="role-name">Citador</h2>
+          <div class="role-target">→ activa <b>CITADOR</b></div>
+        </div>
+        <div class="role-foot">
+          <span></span>
+          <span class="role-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+        </div>
+      </button>
+
+      <button class="role" data-role="auditor" data-name="Auditor">
+        <div>
+          <div class="role-num">Admin · 06</div>
+          <h2 class="role-name">Auditor</h2>
+          <div class="role-target">→ activa <b>AUDITOR</b></div>
+        </div>
+        <div class="role-foot">
+          <span></span>
+          <span class="role-arrow"><svg viewBox="0 0 14 14" fill="none"><path d="M2 7h9M7 3l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg></span>
+        </div>
+      </button>
+    </section>
+
+    <footer class="foot">
+      <span>06 perfiles · ⌘+1-6 para activar</span>
+      <span class="right">
+        <span>MVP · 24h</span>
+        <span>Facultad de Ingeniería · UdeA</span>
+      </span>
+    </footer>
+  </div>
+
+  <div id="nav-overlay" aria-hidden="true">
+    <div class="core">
+      <img src="assets/isologo.png" alt="" />
+      <div class="rname" id="rname">Reglamenta</div>
+      <div class="spin"></div>
+      <div class="lab">Activando agente… demo Gradio</div>
+    </div>
+  </div>
+
+<script>
+  /* ─── Cursor wave field ─── */
+  const canvas = document.getElementById('field');
+  const ctx = canvas.getContext('2d', { alpha: true });
+  let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
+
+  function resize() {
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = W * DPR; canvas.height = H * DPR;
+    canvas.style.width = W + 'px'; canvas.style.height = H + 'px';
+    ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+    buildGrid();
+  }
+
+  let points = [];
+  const GAP = 38;
+  function buildGrid() {
+    points = [];
+    for (let y = -GAP; y < H + GAP; y += GAP) {
+      for (let x = -GAP; x < W + GAP; x += GAP) {
+        points.push({
+          bx: x, by: y, x, y,
+          phase: Math.random() * Math.PI * 2,
+        });
+      }
+    }
+  }
+
+  const mouse  = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  const mLerp  = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  let lastMove = performance.now();
+
+  let t = 0;
+  let raf = 0;
+  function loop(ts) {
+    t = ts * 0.001;
+    mLerp.x += (mouse.x - mLerp.x) * 0.12;
+    mLerp.y += (mouse.y - mLerp.y) * 0.12;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // dots + connectors
+    const RADIUS = 280;
+    for (const p of points) {
+      const dx = p.bx - mLerp.x;
+      const dy = p.by - mLerp.y;
+      const dist = Math.hypot(dx, dy);
+
+      // cursor-driven wave
+      const proximity = Math.max(0, 1 - dist / RADIUS);
+      const wave = Math.sin(dist * 0.025 - t * 3.2) * proximity * 14;
+      const dirx = dist > 0.1 ? dx / dist : 0;
+      const diry = dist > 0.1 ? dy / dist : 0;
+      // push points away from cursor along the wave
+      p.x = p.bx + dirx * wave;
+      // ambient bobbing
+      p.y = p.by + diry * wave + Math.sin(t * 1.2 + p.phase) * 1.5;
+
+      const alpha = 0.25 + proximity * 0.55;
+      const size = 1 + proximity * 1.6;
+
+      ctx.fillStyle = `rgba(13, 13, 13, ${alpha * 0.55})`;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // cursor halo
+    const grd = ctx.createRadialGradient(mLerp.x, mLerp.y, 0, mLerp.x, mLerp.y, 220);
+    grd.addColorStop(0, 'rgba(255, 122, 82, 0.18)');
+    grd.addColorStop(0.6, 'rgba(255, 122, 82, 0.04)');
+    grd.addColorStop(1, 'rgba(255, 122, 82, 0)');
+    ctx.fillStyle = grd;
+    ctx.beginPath();
+    ctx.arc(mLerp.x, mLerp.y, 220, 0, Math.PI * 2);
+    ctx.fill();
+
+    raf = requestAnimationFrame(loop);
+  }
+
+  /* ─── cursor follow ─── */
+  const cursorEl = document.getElementById('cursor');
+  let cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+  let tcx = cx, tcy = cy;
+  function cursorLoop() {
+    cx += (tcx - cx) * 0.28;
+    cy += (tcy - cy) * 0.28;
+    cursorEl.style.transform = `translate(${cx}px, ${cy}px) translate(-50%, -50%)`;
+    requestAnimationFrame(cursorLoop);
+  }
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX; mouse.y = e.clientY;
+    tcx = e.clientX; tcy = e.clientY;
+    lastMove = performance.now();
+  });
+
+  // gentle ambient mouse drift when idle (so wave keeps moving)
+  setInterval(() => {
+    if (performance.now() - lastMove > 1500) {
+      mouse.x = W / 2 + Math.cos(t * 0.4) * (W * 0.18);
+      mouse.y = H / 2 + Math.sin(t * 0.5) * (H * 0.18);
+    }
+  }, 80);
+
+  // hover state for cursor (over role buttons)
+  document.querySelectorAll('.role, .nav-back, .wordmark').forEach((el) => {
+    el.addEventListener('mouseenter', () => cursorEl.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursorEl.classList.remove('hover'));
+  });
+
+  /* ─── activate agent with overlay (demo placeholder) ─── */
+  const overlay = document.getElementById('nav-overlay');
+  const rname = document.getElementById('rname');
+  document.querySelectorAll('.role').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      rname.textContent = btn.dataset.name;
+      overlay.classList.add('active');
+      overlay.setAttribute('aria-hidden', 'false');
+      setTimeout(() => {
+        overlay.classList.remove('active');
+        overlay.setAttribute('aria-hidden', 'true');
+      }, 2400);
+    });
+  });
+
+  // ⌘+1-6 quick activate
+  window.addEventListener('keydown', (e) => {
+    if (!(e.metaKey || e.ctrlKey)) return;
+    const n = parseInt(e.key, 10);
+    if (n >= 1 && n <= 6) {
+      e.preventDefault();
+      const roles = document.querySelectorAll('.role');
+      if (roles[n - 1]) roles[n - 1].click();
+    }
+  });
+
+  window.addEventListener('resize', resize);
+  resize();
+  raf = requestAnimationFrame(loop);
+  requestAnimationFrame(cursorLoop);
+</script>
+</body>
+</html>

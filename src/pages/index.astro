@@ -1,0 +1,58 @@
+---
+import BaseLayout from '../layouts/Base.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
+import Manifesto from '../components/Manifesto.astro';
+import Modules from '../components/Modules.astro';
+import Architecture from '../components/Architecture.astro';
+import Fuentes from '../components/Fuentes.astro';
+import Rubrica from '../components/Rubrica.astro';
+import Footer from '../components/Footer.astro';
+import TransitionOverlay from '../components/TransitionOverlay.astro';
+---
+
+<BaseLayout title="AgentNexus | La norma se vuelve conversación">
+  <Nav />
+  <main>
+    <Hero />
+    <Manifesto />
+    <Modules />
+    <Architecture />
+    <Fuentes />
+    <Rubrica />
+  </main>
+  <Footer />
+  <TransitionOverlay />
+</BaseLayout>
+
+<script>
+  // Intersection Observer for scroll reveals
+  const revealElements = document.querySelectorAll('.reveal');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    root: null,
+    threshold: 0.1,
+    rootMargin: "0px 0px -50px 0px"
+  });
+
+  revealElements.forEach(el => observer.observe(el));
+</script>
+
+<style is:global>
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  }
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
