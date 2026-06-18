@@ -14,6 +14,16 @@ bun astro check    # TypeScript + Astro type checking
 
 Node >=22.12.0 required. The project uses bun as the package manager.
 
+## Environment
+
+Create a `.env` file at the project root:
+
+```
+PUBLIC_OPENROUTER_API_KEY=sk-or-...
+```
+
+The `PUBLIC_` prefix is required for Astro to expose the variable client-side.
+
 ## Architecture
 
 AgentNexus is an **Astro 6** marketing site + chat demo for a multi-agent RAG copilot aimed at university academic regulations. TypeScript strict mode throughout.
@@ -22,6 +32,10 @@ AgentNexus is an **Astro 6** marketing site + chat demo for a multi-agent RAG co
 
 - `src/pages/index.astro` — landing page; assembles section components sequentially
 - `src/pages/roles.astro` — chat demo UI; self-contained page with all markup, styles, and script inline
+
+### Layouts
+
+- `src/layouts/Base.astro` — HTML shell (`<!doctype html>`, head tags, Google Fonts preconnect, global CSS import). Both pages wrap themselves in this layout.
 
 ### Component structure (`src/components/`)
 
@@ -38,6 +52,14 @@ The landing page is split into section components rendered in this order:
 | `Rubrica.astro` | — | Evaluation rubric section |
 | `Footer.astro` | — | Footer |
 | `TransitionOverlay.astro` | — | Full-screen transition on `.cta-enter` click |
+
+### Roles page flow
+
+`/roles` is a three-step inline flow driven entirely by client-side JS in `roles.astro`:
+
+1. **University panel** (`#uni-panel`) — scrollable list of institutions; selecting one sets `data-uni` / `data-abbr` state and triggers the mega-menu
+2. **Role mega-menu** (`.mega-menu`) — overlays the uni panel; user picks a role (Estudiante, Docente, etc.)
+3. **Chat panel** (`#chat-panel`) — slides in after role selection; sends SSE-streamed requests to OpenRouter
 
 ### Design system
 
@@ -61,6 +83,6 @@ All tokens are CSS custom properties in `src/styles/global.css`:
 
 **CTA transition**: Any `<a class="cta-enter">` link triggers the `TransitionOverlay` — a full-screen dark wipe before navigating. New CTA links that navigate to `/roles` should get this class.
 
-**Chat (roles page)**: The `/roles` page sends requests to OpenRouter (`https://openrouter.ai/api/v1/chat/completions`) using `mistralai/mistral-7b-instruct` with SSE streaming. The API key is read from the `PUBLIC_OPENROUTER_API_KEY` environment variable (prefix `PUBLIC_` makes it available client-side in Astro). Set it in a `.env` file or Netlify environment variables.
+**Chat (roles page)**: The `/roles` page sends requests to OpenRouter (`https://openrouter.ai/api/v1/chat/completions`) using `mistralai/mistral-7b-instruct` with SSE streaming. The API key is read from the `PUBLIC_OPENROUTER_API_KEY` environment variable.
 
 **Canvas animation**: The roles page renders an interactive dot-field on a `<canvas id="field">` using `requestAnimationFrame`; it reacts to mouse movement.
