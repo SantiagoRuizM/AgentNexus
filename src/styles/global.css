@@ -46,33 +46,29 @@
 }
 
 :root {
-  /* UdeA — Rojo Bordeaux institucional */
-  --coral-100: #F8EDEE;
-  --coral-200: #F0D0D3;
-  --coral-300: #D8969E;
-  --coral-400: #B85B65;
-  --coral-500: #9B2C37;
-  --coral-600: #821A24;
-  --coral-700: #5A0E17;
-  /* UdeA — Verde institucional */
-  --udea-green: #2A5C34;
-  --udea-green-dark: #1E4028;
-  --udea-green-light: #E8F3EC;
-  --grad-orange: linear-gradient(135deg, #9B2C37 0%, #821A24 100%);
-  --grad-warm-bg: radial-gradient(140% 90% at 80% 5%, rgba(130,26,36,0.5), transparent 55%),
-                  radial-gradient(80% 60% at 5% 10%, rgba(184,91,101,0.35), transparent 65%),
-                  linear-gradient(180deg, #F2D0D3 0%, #F8EDEE 40%, #FBF4F5 72%, #FEFBFB 90%, #FFFFFF 100%);
-  --cream: #FBF0F1;
-  --cream-02: #F2E5E7;
+  /* UdeA — Verde institucional (extraído de udea.edu.co) */
+  --coral-100: #EAF3EA;
+  --coral-200: #C8DEC8;
+  --coral-300: #8CBF8C;
+  --coral-400: #5CB85C;
+  --coral-500: #3A8C3A;
+  --coral-600: #276221;
+  --coral-700: #174A1A;
+  --grad-orange: linear-gradient(135deg, #5CB85C 0%, #276221 100%);
+  --grad-warm-bg: radial-gradient(140% 90% at 80% 5%, rgba(39,98,33,0.4), transparent 55%),
+                  radial-gradient(80% 60% at 5% 10%, rgba(92,184,92,0.25), transparent 65%),
+                  linear-gradient(180deg, #C8DEC8 0%, #EAF3EA 40%, #F4F9F4 72%, #FAFDFB 90%, #FFFFFF 100%);
+  --cream: #F4F9F4;
+  --cream-02: #E2EFE2;
   --paper: #FFFFFF;
   --ink: #0D0D0D;
   --ink-soft: #1A1A1A;
-  --body: #2E2A26;
-  --muted: #6B655E;
-  --line: #E4D6D8;
-  --line-strong: #C5B0B3;
-  --verified: #2A5C34;
-  --verified-50: #E8F3EC;
+  --body: #252A25;
+  --muted: #5E6B5E;
+  --line: #D0E0D0;
+  --line-strong: #A8C0A8;
+  --verified: #276221;
+  --verified-50: #EAF3EA;
   --signal: #1A7CC2;
   --signal-50: #E6F1FA;
   --max: 1240px;
@@ -121,7 +117,8 @@ code, pre, .mono {
   color: transparent;
   font-style: italic;
   display: inline-block;
-  padding-bottom: 0.05em;
+  padding-bottom: 0.08em;
+  padding-right: 0.12em; /* space for italic overhang so last letter isn't clipped */
 }
 
 /* Animations */
