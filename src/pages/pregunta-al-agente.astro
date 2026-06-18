@@ -29,7 +29,7 @@ import BaseLayout from '../layouts/Base.astro';
         <ul class="uni-list">
           <li><button class="uni-item" data-uni="Universidad de Antioquia" data-abbr="UdeA" data-color="#026937" data-bg="#EBF7E8">
             <div class="inst-logo" style="background:#026937">
-              <img src="/assets/Logosímbolo+Universidad+de+Antioquia+vertical+blanco.png" alt="UdeA" class="inst-logo-img" />
+              <img src="/assets/+Logosímbolo+Universidad+de+Antioquia+horizontal+blanco.png" alt="UdeA" class="inst-logo-img" />
             </div>
             <div class="uname-wrap">
               <span class="uname">Universidad de Antioquia</span>
@@ -43,7 +43,9 @@ import BaseLayout from '../layouts/Base.astro';
           <div class="mega-inner">
             <div class="mega-header">
               <div class="mega-header-left">
-                <div class="mega-inst-logo" id="mega-inst-logo"></div>
+                <div class="mega-inst-logo" id="mega-inst-logo">
+                  <img src="/assets/+Logosímbolo+Universidad+de+Antioquia+horizontal+blanco.png" alt="UdeA" class="mega-logo-img" />
+                </div>
                 <div class="mega-header-text">
                   <p class="mega-eyebrow mono">Institución seleccionada</p>
                   <h3 class="mega-uni-name" id="mega-uni-name"></h3>
@@ -131,11 +133,19 @@ import BaseLayout from '../layouts/Base.astro';
         <div class="input-area">
           <div class="input-wrap">
             <textarea id="chat-input" placeholder="Escribe tu consulta…" rows="1" maxlength="2000"></textarea>
+            <button id="voice-btn" aria-label="Entrada por voz" title="Entrada por voz">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M12 2a3 3 0 0 1 3 3v7a3 3 0 0 1-6 0V5a3 3 0 0 1 3-3z"/>
+                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                <line x1="12" y1="19" x2="12" y2="22"/>
+                <line x1="8" y1="22" x2="16" y2="22"/>
+              </svg>
+            </button>
             <button id="send-btn" aria-label="Enviar">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="m22 2-7 20-4-9-9-4z"/><path d="M22 2 11 13"/></svg>
             </button>
           </div>
-          <p class="input-hint mono"><kbd>Enter</kbd> envía · <kbd>Shift+Enter</kbd> nueva línea</p>
+          <p class="input-hint mono"><kbd>Enter</kbd> envía · <kbd>Shift+Enter</kbd> nueva línea · <kbd>🎤</kbd> voz</p>
         </div>
       </div>
 
@@ -254,11 +264,11 @@ import BaseLayout from '../layouts/Base.astro';
   .uni-item:hover { background: rgba(0,0,0,.04); border-left-color: rgba(0,0,0,.15); }
   .uni-item.selected { background: rgba(0,0,0,.06); border-left-color: rgba(0,0,0,.25); }
 
-  /* Institution logo tile */
+  /* Institution logo tile — rectangular for horizontal logo */
   .inst-logo {
-    width: 34px; height: 34px; border-radius: 8px;
+    width: 82px; height: 36px; border-radius: 8px;
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; overflow: hidden; padding: 3px;
+    flex-shrink: 0; overflow: hidden; padding: 5px;
   }
   .inst-logo-img {
     width: 100%; height: 100%; object-fit: contain;
@@ -307,12 +317,12 @@ import BaseLayout from '../layouts/Base.astro';
     display: flex; align-items: center; gap: .75rem;
   }
 
-  /* Large logo tile inside mega menu */
+  /* Large logo tile inside mega menu — horizontal logo */
   .mega-inst-logo {
-    width: 52px; height: 52px; border-radius: 12px;
+    width: 140px; height: 48px; border-radius: 12px;
     background: var(--coral-600);
     display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; overflow: hidden; padding: 5px;
+    flex-shrink: 0; overflow: hidden; padding: 8px;
     box-shadow: 0 4px 12px rgba(0,0,0,.18);
     transition: background-color .3s ease;
   }
@@ -386,10 +396,9 @@ import BaseLayout from '../layouts/Base.astro';
 
   /* Small logo tile in context strip */
   .ctx-inst-logo {
-    width: 24px; height: 24px; border-radius: 6px;
-    background: var(--coral-600);
-    display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0; overflow: hidden; padding: 2px;
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--coral-400);
+    flex-shrink: 0;
     transition: background-color .3s ease;
   }
 
@@ -432,7 +441,8 @@ import BaseLayout from '../layouts/Base.astro';
     display: flex; flex-direction: column; align-items: center;
     text-align: center; margin: auto; max-width: 380px; padding: 2rem 1rem;
   }
-  .welcome-logo { margin-bottom: 1.1rem; width: 180px; height: auto; object-fit: contain; opacity: .9; }
+  .welcome-logo { margin-bottom: 1.1rem; width: 220px; height: auto; object-fit: contain; opacity: .9; }
+  .mega-logo-img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .welcome-title { font-family: 'Azurio', serif; font-size: 1.5rem; color: var(--ink); margin-bottom: .55rem; }
   .welcome-sub { font-size: .87rem; color: var(--muted); font-weight: 300; line-height: 1.6; margin-bottom: 1.4rem; }
 
@@ -505,6 +515,23 @@ import BaseLayout from '../layouts/Base.astro';
   }
   #chat-input::placeholder { color: var(--muted); }
 
+  #voice-btn {
+    width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
+    background: rgba(2,105,55,.08); border: 1.5px solid rgba(2,105,55,.2);
+    color: var(--coral-600); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: all .2s;
+  }
+  #voice-btn:hover { background: rgba(2,105,55,.15); border-color: var(--coral-400); }
+  #voice-btn.listening {
+    background: var(--coral-600); color: white; border-color: var(--coral-600);
+    animation: voicePulse 1.2s ease-in-out infinite;
+  }
+  @keyframes voicePulse {
+    0%,100% { box-shadow: 0 0 0 0 rgba(2,105,55,.45); }
+    50% { box-shadow: 0 0 0 7px rgba(2,105,55,0); }
+  }
+
   #send-btn {
     width: 32px; height: 32px; border-radius: 8px; flex-shrink: 0;
     background: var(--ink); border: none; color: white; cursor: pointer;
@@ -534,8 +561,7 @@ import BaseLayout from '../layouts/Base.astro';
 
 <script>
 const DEFAULT_BG = '#EBF7E8';
-const DEFAULT_DOT: [number,number,number] = [2, 105, 55];
-const UDEA_LOGO_WHITE = '/assets/Logosímbolo+Universidad+de+Antioquia+vertical+blanco.png';
+const DEFAULT_DOT: [number,number,number] = [67, 182, 73]; /* Pantone 361 C — más visible sobre fondo claro */
 
 const state = { university: '', abbr: '', role: '', color: '', bg: '' };
 
@@ -560,27 +586,33 @@ function hexToRgb(hex: string): [number,number,number] {
   let mx = W/2, my = H/2, tx = W/2, ty = H/2, t = 0, lm = Date.now();
   window.addEventListener('resize', () => { W = c.width = innerWidth; H = c.height = innerHeight; });
   document.addEventListener('mousemove', e => { tx = e.clientX; ty = e.clientY; lm = Date.now(); });
-  const GAP = 42, R = 200;
+  document.addEventListener('touchmove', e => { tx = e.touches[0].clientX; ty = e.touches[0].clientY; lm = Date.now(); }, { passive: true });
+  const GAP = 38, R = 310;
   const tick = () => {
     dotR += (tgtR - dotR) * .025;
     dotG += (tgtG - dotG) * .025;
     dotB += (tgtB - dotB) * .025;
     const r = Math.round(dotR), g = Math.round(dotG), b = Math.round(dotB);
 
-    t += .016; mx += (tx-mx)*.07; my += (ty-my)*.07;
-    if (Date.now()-lm > 1500) { tx = W/2+Math.sin(t*.4)*170; ty = H/2+Math.cos(t*.35)*130; }
+    t += .016; mx += (tx-mx)*.08; my += (ty-my)*.08;
+    if (Date.now()-lm > 1200) { tx = W/2+Math.sin(t*.38)*220; ty = H/2+Math.cos(t*.32)*160; }
     ctx.clearRect(0,0,W,H);
+
+    /* double glow — inner bright, outer soft halo */
     const grd = ctx.createRadialGradient(mx,my,0,mx,my,R);
-    grd.addColorStop(0,`rgba(${r},${g},${b},.09)`); grd.addColorStop(1,'transparent');
+    grd.addColorStop(0,`rgba(${r},${g},${b},.14)`);
+    grd.addColorStop(.4,`rgba(${r},${g},${b},.07)`);
+    grd.addColorStop(1,'transparent');
     ctx.fillStyle=grd; ctx.fillRect(0,0,W,H);
+
     for (let i=0; i<=Math.ceil(W/GAP); i++)
       for (let j=0; j<=Math.ceil(H/GAP); j++) {
         const bx=i*GAP+(W%GAP)/2, by=j*GAP+(H%GAP)/2;
         const dx=bx-mx,dy=by-my,d=Math.sqrt(dx*dx+dy*dy);
         const p=Math.max(0,1-d/R);
-        const y=by+Math.sin(d*.025-t*3)*p*11+Math.sin(t*1.1+(i+j)*.1)*1.1;
-        ctx.beginPath(); ctx.arc(bx,y,1.3+p*1.8,0,Math.PI*2);
-        ctx.fillStyle=`rgba(${r},${g},${b},${.06+p*.28})`; ctx.fill();
+        const y=by+Math.sin(d*.022-t*3)*p*15+Math.sin(t*1.0+(i+j)*.12)*1.5;
+        ctx.beginPath(); ctx.arc(bx,y,1.5+p*2.6,0,Math.PI*2);
+        ctx.fillStyle=`rgba(${r},${g},${b},${.06+p*.42})`; ctx.fill();
       }
     requestAnimationFrame(tick);
   };
@@ -607,10 +639,8 @@ function applyInstitutionColor(color: string, bg: string) {
 
 function resetColor() {
   rolesPage.style.backgroundColor = DEFAULT_BG;
-  megaInstLogo.style.background = 'var(--coral-600)';
-  megaInstLogo.innerHTML = '';
-  ctxInstLogo.style.background = 'var(--coral-600)';
-  ctxInstLogo.innerHTML = '';
+  megaInstLogo.style.background = '';
+  ctxInstLogo.style.background = '';
   ctxAbbr.style.color = '';
   ctxAbbr.style.backgroundColor = '';
   ctxAbbr.style.borderColor = '';
@@ -626,7 +656,7 @@ document.querySelectorAll<HTMLButtonElement>('.uni-item').forEach(item => {
     state.bg = item.dataset.bg || DEFAULT_BG;
 
     megaUniName.textContent = state.university;
-    megaInstLogo.innerHTML = `<img src="${UDEA_LOGO_WHITE}" alt="${state.abbr}" style="width:100%;height:100%;object-fit:contain;" />`;
+    /* mega-inst-logo image is pre-filled in HTML; only update background color */
 
     document.querySelectorAll('.uni-item').forEach(i => i.classList.remove('selected'));
     item.classList.add('selected');
@@ -659,7 +689,6 @@ document.querySelectorAll<HTMLButtonElement>('.role-option').forEach(opt => {
     state.role = opt.dataset.role || '';
     megaMenu.classList.remove('open');
 
-    ctxInstLogo.innerHTML = `<img src="${UDEA_LOGO_WHITE}" alt="${state.abbr}" style="width:100%;height:100%;object-fit:contain;" />`;
     ctxInstLogo.style.background = state.color;
     ctxAbbr.textContent = state.abbr;
     ctxAbbr.style.color = state.color;
@@ -696,6 +725,33 @@ inputEl.addEventListener('input', () => {
 inputEl.addEventListener('keydown', e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); go(); } });
 sendBtn.addEventListener('click', go);
 
+// ── Voice input (Web Speech API) ──
+(function() {
+  const voiceBtn = document.getElementById('voice-btn') as HTMLButtonElement | null;
+  if (!voiceBtn) return;
+  const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+  if (!SR) { voiceBtn.style.display = 'none'; return; }
+
+  const rec = new SR();
+  rec.lang = 'es-CO'; rec.continuous = false; rec.interimResults = true;
+  let listening = false;
+
+  rec.addEventListener('result', (e: any) => {
+    const t = Array.from(e.results as any[]).map((r: any) => r[0].transcript).join('');
+    inputEl.value = t;
+    inputEl.style.height = 'auto';
+    inputEl.style.height = Math.min(inputEl.scrollHeight, 110) + 'px';
+    if (e.results[e.results.length - 1].isFinal) { listening = false; voiceBtn.classList.remove('listening'); }
+  });
+  rec.addEventListener('end', () => { listening = false; voiceBtn.classList.remove('listening'); });
+  rec.addEventListener('error', () => { listening = false; voiceBtn.classList.remove('listening'); });
+
+  voiceBtn.addEventListener('click', () => {
+    if (listening) { rec.stop(); }
+    else { rec.start(); listening = true; voiceBtn.classList.add('listening'); }
+  });
+})();
+
 document.querySelectorAll<HTMLButtonElement>('.q-chip').forEach(c => {
   c.addEventListener('click', () => { inputEl.value = c.dataset.q || c.textContent || ''; go(); });
 });
@@ -716,8 +772,8 @@ async function send(txt: string) {
   scroll(); sendBtn.disabled = true;
 
   const sys = state.role
-    ? `Eres UdeAyuda, el copiloto académico oficial de la Universidad de Antioquia. El usuario es ${state.role}. Responde siempre en español, con empatía y precisión. Cuando cites reglamentos hazlo como [Fuente: Reglamento Estudiantil Art. X §Y] o [Fuente: Estatuto General Acuerdo X]. No inventes información; si no tienes certeza, indica que el usuario consulte la Secretaría o dependencia correspondiente.`
-    : `Eres UdeAyuda, el copiloto académico de la Universidad de Antioquia. Responde siempre en español, con claridad y empatía. Cita reglamentos como [Fuente: Reglamento Estudiantil Art. X §Y]. No inventes información; si no tienes certeza, remite al usuario a la dependencia correspondiente.`;
+    ? `Eres UdeAyuda, el agente universitario oficial de la Universidad de Antioquia. El usuario es ${state.role}. Responde siempre en español, con empatía y precisión. Cuando cites reglamentos hazlo como [Fuente: Reglamento Estudiantil Art. X §Y] o [Fuente: Estatuto General Acuerdo X]. No inventes información; si no tienes certeza, indica que el usuario consulte la Secretaría o dependencia correspondiente.`
+    : `Eres UdeAyuda, el agente universitario de la Universidad de Antioquia. Responde siempre en español, con claridad y empatía. Cita reglamentos como [Fuente: Reglamento Estudiantil Art. X §Y]. No inventes información; si no tienes certeza, remite al usuario a la dependencia correspondiente.`;
 
   try {
     const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
