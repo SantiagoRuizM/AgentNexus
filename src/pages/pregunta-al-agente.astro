@@ -10,7 +10,7 @@ import BaseLayout from '../layouts/Base.astro';
   <!-- ── TOP NAV ── -->
   <header class="top-nav">
     <a href="/" class="logo-link">
-      <img src="/assets/Isologo_transparente.png" alt="UdeAyuda" width="24" height="24" />
+      <img src="/assets/UdeA+simplificado+®-01.png" alt="UdeA" height="20" style="width:auto;object-fit:contain;" />
       <span class="wordmark">UdeAyuda<span class="grad-text">.</span></span>
     </a>
     <a href="/" class="back-link mono">← Volver al inicio</a>
@@ -27,8 +27,10 @@ import BaseLayout from '../layouts/Base.astro';
           <p class="uni-panel-sub mono">Selecciona tu rol para continuar</p>
         </div>
         <ul class="uni-list">
-          <li><button class="uni-item" data-uni="Universidad de Antioquia" data-abbr="UdeA" data-color="#276221" data-bg="#EAF3EA">
-            <div class="inst-logo" style="background:#276221">UdeA</div>
+          <li><button class="uni-item" data-uni="Universidad de Antioquia" data-abbr="UdeA" data-color="#026937" data-bg="#EBF7E8">
+            <div class="inst-logo" style="background:#026937">
+              <img src="/assets/Logosímbolo+Universidad+de+Antioquia+vertical+blanco.png" alt="UdeA" class="inst-logo-img" />
+            </div>
             <div class="uname-wrap">
               <span class="uname">Universidad de Antioquia</span>
               <span class="uname-sub mono">Medellín · Colombia</span>
@@ -113,7 +115,7 @@ import BaseLayout from '../layouts/Base.astro';
         <!-- Messages -->
         <div class="messages" id="messages">
           <div class="welcome" id="welcome">
-            <img src="/assets/Isologo_transparente.png" alt="UdeAyuda" width="40" height="40" class="welcome-logo" />
+            <img src="/assets/logosimbolo-horizontal-png.png" alt="Universidad de Antioquia" class="welcome-logo" />
             <h2 class="welcome-title">Hola, soy <em class="grad-text">UdeAyuda</em></h2>
             <p class="welcome-sub">Selecciona tu rol en la UdeA para comenzar, o realiza una consulta directamente.</p>
             <div class="chips-row">
@@ -150,7 +152,7 @@ import BaseLayout from '../layouts/Base.astro';
     width: 100vw; height: 100vh;
     display: flex; flex-direction: column;
     /* background-color is the institution tint; white overlays add depth */
-    background-color: #F4F9F4;
+    background-color: #EBF7E8;
     background-image:
       radial-gradient(130% 80% at 75% 0%, rgba(255,255,255,.55), transparent 50%),
       radial-gradient(70% 55% at 5% 10%, rgba(255,255,255,.35), transparent 60%);
@@ -212,7 +214,7 @@ import BaseLayout from '../layouts/Base.astro';
     border-radius: 16px;
     display: flex; flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 4px 24px rgba(229,92,50,.06);
+    box-shadow: 0 4px 24px rgba(2,105,55,.10);
     transition: opacity .4s ease, transform .4s ease;
     min-height: 0;
   }
@@ -255,13 +257,12 @@ import BaseLayout from '../layouts/Base.astro';
   /* Institution logo tile */
   .inst-logo {
     width: 34px; height: 34px; border-radius: 8px;
-    /* background set per-institution via inline style */
     display: flex; align-items: center; justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .46rem; font-weight: 700; color: white;
-    letter-spacing: -.01em; text-transform: uppercase;
-    flex-shrink: 0; line-height: 1;
-    text-align: center; padding: 2px;
+    flex-shrink: 0; overflow: hidden; padding: 3px;
+  }
+  .inst-logo-img {
+    width: 100%; height: 100%; object-fit: contain;
+    display: block;
   }
 
   .uname-wrap { display: flex; flex-direction: column; gap: .1rem; }
@@ -308,15 +309,10 @@ import BaseLayout from '../layouts/Base.astro';
 
   /* Large logo tile inside mega menu */
   .mega-inst-logo {
-    width: 48px; height: 48px; border-radius: 11px;
-    /* background set dynamically via JS */
-    background: var(--grad-orange);
+    width: 52px; height: 52px; border-radius: 12px;
+    background: var(--coral-600);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .52rem; font-weight: 700; color: white;
-    letter-spacing: -.01em; text-transform: uppercase;
-    flex-shrink: 0; line-height: 1.1;
-    text-align: center; padding: 3px;
+    flex-shrink: 0; overflow: hidden; padding: 5px;
     box-shadow: 0 4px 12px rgba(0,0,0,.18);
     transition: background-color .3s ease;
   }
@@ -375,7 +371,7 @@ import BaseLayout from '../layouts/Base.astro';
     border-radius: 16px;
     display: flex; flex-direction: column;
     overflow: hidden;
-    box-shadow: 0 4px 28px rgba(229,92,50,.07);
+    box-shadow: 0 4px 28px rgba(2,105,55,.10);
     min-height: 0;
   }
 
@@ -390,14 +386,10 @@ import BaseLayout from '../layouts/Base.astro';
 
   /* Small logo tile in context strip */
   .ctx-inst-logo {
-    width: 22px; height: 22px; border-radius: 5px;
-    background: var(--grad-orange);
+    width: 24px; height: 24px; border-radius: 6px;
+    background: var(--coral-600);
     display: flex; align-items: center; justify-content: center;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: .38rem; font-weight: 700; color: white;
-    letter-spacing: -.02em; text-transform: uppercase;
-    flex-shrink: 0; line-height: 1; padding: 1px;
-    text-align: center;
+    flex-shrink: 0; overflow: hidden; padding: 2px;
     transition: background-color .3s ease;
   }
 
@@ -406,7 +398,7 @@ import BaseLayout from '../layouts/Base.astro';
     font-weight: 700; text-transform: uppercase;
     /* color, background, border set dynamically via JS */
     color: var(--coral-600);
-    background: rgba(255,122,82,.1); border: 1px solid rgba(255,122,82,.2);
+    background: rgba(2,105,55,.08); border: 1px solid rgba(2,105,55,.22);
     padding: .15rem .5rem; border-radius: 4px;
     transition: color .3s ease, background-color .3s ease, border-color .3s ease;
   }
@@ -440,18 +432,18 @@ import BaseLayout from '../layouts/Base.astro';
     display: flex; flex-direction: column; align-items: center;
     text-align: center; margin: auto; max-width: 380px; padding: 2rem 1rem;
   }
-  .welcome-logo { margin-bottom: 1.1rem; opacity: .8; }
+  .welcome-logo { margin-bottom: 1.1rem; width: 180px; height: auto; object-fit: contain; opacity: .9; }
   .welcome-title { font-family: 'Azurio', serif; font-size: 1.5rem; color: var(--ink); margin-bottom: .55rem; }
   .welcome-sub { font-size: .87rem; color: var(--muted); font-weight: 300; line-height: 1.6; margin-bottom: 1.4rem; }
 
   .chips-row { display: flex; flex-wrap: wrap; gap: .4rem; justify-content: center; }
   .q-chip {
-    background: rgba(39,98,33,.07); border: 1px solid rgba(39,98,33,.18);
+    background: rgba(2,105,55,.08); border: 1px solid rgba(2,105,55,.22);
     border-radius: 999px; padding: .3rem .75rem; font-size: .74rem;
-    color: var(--coral-700); cursor: pointer; font-family: 'Replica','Inter',sans-serif;
+    color: var(--coral-600); cursor: pointer; font-family: 'Replica','Inter',sans-serif;
     transition: all .18s;
   }
-  .q-chip:hover { background: rgba(39,98,33,.13); border-color: var(--coral-500); }
+  .q-chip:hover { background: rgba(2,105,55,.15); border-color: var(--coral-500); }
 
   /* Bubbles */
   .msg { display: flex; flex-direction: column; gap: .3rem; max-width: 74%; }
@@ -541,8 +533,9 @@ import BaseLayout from '../layouts/Base.astro';
 </style>
 
 <script>
-const DEFAULT_BG = '#F4F9F4';
-const DEFAULT_DOT: [number,number,number] = [39, 98, 33];
+const DEFAULT_BG = '#EBF7E8';
+const DEFAULT_DOT: [number,number,number] = [2, 105, 55];
+const UDEA_LOGO_WHITE = '/assets/Logosímbolo+Universidad+de+Antioquia+vertical+blanco.png';
 
 const state = { university: '', abbr: '', role: '', color: '', bg: '' };
 
@@ -614,8 +607,10 @@ function applyInstitutionColor(color: string, bg: string) {
 
 function resetColor() {
   rolesPage.style.backgroundColor = DEFAULT_BG;
-  megaInstLogo.style.background = '';
-  ctxInstLogo.style.background = '';
+  megaInstLogo.style.background = 'var(--coral-600)';
+  megaInstLogo.innerHTML = '';
+  ctxInstLogo.style.background = 'var(--coral-600)';
+  ctxInstLogo.innerHTML = '';
   ctxAbbr.style.color = '';
   ctxAbbr.style.backgroundColor = '';
   ctxAbbr.style.borderColor = '';
@@ -631,7 +626,7 @@ document.querySelectorAll<HTMLButtonElement>('.uni-item').forEach(item => {
     state.bg = item.dataset.bg || DEFAULT_BG;
 
     megaUniName.textContent = state.university;
-    megaInstLogo.textContent = state.abbr;
+    megaInstLogo.innerHTML = `<img src="${UDEA_LOGO_WHITE}" alt="${state.abbr}" style="width:100%;height:100%;object-fit:contain;" />`;
 
     document.querySelectorAll('.uni-item').forEach(i => i.classList.remove('selected'));
     item.classList.add('selected');
@@ -664,7 +659,7 @@ document.querySelectorAll<HTMLButtonElement>('.role-option').forEach(opt => {
     state.role = opt.dataset.role || '';
     megaMenu.classList.remove('open');
 
-    ctxInstLogo.textContent = state.abbr;
+    ctxInstLogo.innerHTML = `<img src="${UDEA_LOGO_WHITE}" alt="${state.abbr}" style="width:100%;height:100%;object-fit:contain;" />`;
     ctxInstLogo.style.background = state.color;
     ctxAbbr.textContent = state.abbr;
     ctxAbbr.style.color = state.color;

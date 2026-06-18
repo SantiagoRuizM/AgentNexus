@@ -46,29 +46,30 @@
 }
 
 :root {
-  /* UdeA — Verde institucional (extraído de udea.edu.co) */
-  --coral-100: #EAF3EA;
-  --coral-200: #C8DEC8;
-  --coral-300: #8CBF8C;
-  --coral-400: #5CB85C;
-  --coral-500: #3A8C3A;
-  --coral-600: #276221;
-  --coral-700: #174A1A;
-  --grad-orange: linear-gradient(135deg, #5CB85C 0%, #276221 100%);
-  --grad-warm-bg: radial-gradient(140% 90% at 80% 5%, rgba(39,98,33,0.4), transparent 55%),
-                  radial-gradient(80% 60% at 5% 10%, rgba(92,184,92,0.25), transparent 65%),
-                  linear-gradient(180deg, #C8DEC8 0%, #EAF3EA 40%, #F4F9F4 72%, #FAFDFB 90%, #FFFFFF 100%);
-  --cream: #F4F9F4;
-  --cream-02: #E2EFE2;
+  /* UdeA — Paleta oficial (Manual de Identidad Institucional, Pantone + Solid Coated) */
+  --coral-100: #EBF7E8;                /* tint claro */
+  --coral-200: #BDE5C0;                /* tint medio */
+  --coral-300: #8DC63F;                /* Pantone 375 C — verde lima */
+  --coral-400: #43B649;                /* Pantone 361 C — verde vivo */
+  --coral-500: #35944B;                /* Pantone 7740 C — verde medio */
+  --coral-600: #026937;                /* Pantone 349 C — verde institucional primario */
+  --coral-700: #014D29;                /* tono oscuro */
+  --grad-orange: linear-gradient(135deg, #43B649 0%, #026937 100%);
+  --grad-warm-bg:
+    radial-gradient(120% 75% at 78% -2%, rgba(2,105,55,0.72), transparent 50%),
+    radial-gradient(65% 50% at 0% 5%,  rgba(67,182,73,0.52), transparent 58%),
+    linear-gradient(175deg, #43B649 0%, #B5E6B8 18%, #D8F0DA 40%, #EBF7EC 62%, #F5FBF5 80%, #FFFFFF 100%);
+  --cream: #EBF7E8;
+  --cream-02: #D0EDD5;
   --paper: #FFFFFF;
   --ink: #0D0D0D;
   --ink-soft: #1A1A1A;
-  --body: #252A25;
-  --muted: #5E6B5E;
-  --line: #D0E0D0;
-  --line-strong: #A8C0A8;
-  --verified: #276221;
-  --verified-50: #EAF3EA;
+  --body: #1A2C1C;
+  --muted: #48664F;
+  --line: #A8D5B0;
+  --line-strong: #6DB87A;
+  --verified: #026937;
+  --verified-50: #EBF7E8;
   --signal: #1A7CC2;
   --signal-50: #E6F1FA;
   --max: 1240px;
