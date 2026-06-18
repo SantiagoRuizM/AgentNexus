@@ -46,28 +46,33 @@
 }
 
 :root {
-  --coral-100: #FFEFE6;
-  --coral-200: #FFDFCC;
-  --coral-300: #FFC2A3;
-  --coral-400: #FF9E78;
-  --coral-500: #FF7A52;
-  --coral-600: #E55C32;
-  --coral-700: #C24823;
-  --grad-orange: linear-gradient(135deg, #FF9E78 0%, #E55C32 100%);
-  --grad-warm-bg: radial-gradient(140% 90% at 80% 5%, rgba(255,130,80,0.65), transparent 55%),
-                  radial-gradient(80% 60% at 5% 10%, rgba(255,180,140,0.5), transparent 65%),
-                  linear-gradient(180deg, #FFC9A8 0%, #FFEFE6 40%, #FFF6EE 72%, #FFFCFA 90%, #FFFFFF 100%);
-  --cream: #FBF6F1;
-  --cream-02: #F4ECE3;
+  /* UdeA — Rojo Bordeaux institucional */
+  --coral-100: #F8EDEE;
+  --coral-200: #F0D0D3;
+  --coral-300: #D8969E;
+  --coral-400: #B85B65;
+  --coral-500: #9B2C37;
+  --coral-600: #821A24;
+  --coral-700: #5A0E17;
+  /* UdeA — Verde institucional */
+  --udea-green: #2A5C34;
+  --udea-green-dark: #1E4028;
+  --udea-green-light: #E8F3EC;
+  --grad-orange: linear-gradient(135deg, #9B2C37 0%, #821A24 100%);
+  --grad-warm-bg: radial-gradient(140% 90% at 80% 5%, rgba(130,26,36,0.5), transparent 55%),
+                  radial-gradient(80% 60% at 5% 10%, rgba(184,91,101,0.35), transparent 65%),
+                  linear-gradient(180deg, #F2D0D3 0%, #F8EDEE 40%, #FBF4F5 72%, #FEFBFB 90%, #FFFFFF 100%);
+  --cream: #FBF0F1;
+  --cream-02: #F2E5E7;
   --paper: #FFFFFF;
   --ink: #0D0D0D;
   --ink-soft: #1A1A1A;
   --body: #2E2A26;
   --muted: #6B655E;
-  --line: #E6DED4;
-  --line-strong: #C9BFB3;
-  --verified: #0F6E56;
-  --verified-50: #E1F5EE;
+  --line: #E4D6D8;
+  --line-strong: #C5B0B3;
+  --verified: #2A5C34;
+  --verified-50: #E8F3EC;
   --signal: #1A7CC2;
   --signal-50: #E6F1FA;
   --max: 1240px;
